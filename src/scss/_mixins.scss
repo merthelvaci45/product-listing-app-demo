@@ -1,0 +1,12 @@
+@mixin reset {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@mixin display_flex($flex-dir: row, $jc: space-around, $ai: center) {
+  display: flex;
+  flex-direction: $flex-dir;
+  justify-content: $jc;
+  align-items: $ai;
+}
