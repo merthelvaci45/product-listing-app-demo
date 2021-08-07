@@ -1,0 +1,57 @@
+@import "../../scss/variables";
+
+// Text Colors Map
+$text-colors: (
+  "Primary": $primary,
+  "TextPrimary": $text-primary,
+  "TextSecondary": $text-secondary,
+  "White": $white,
+  "LightBlue": $light-blue,
+  "Gray300": $gray-300,
+  "Gray500": $gray-500,
+);
+
+@mixin text-color($color) {
+  color: $color;
+}
+
+@each $key, $color in $text-colors {
+  .#{$key} {
+    @include text-color($color);
+  }
+}
+
+// Text Font Sizes Map
+$text-font-sizes: (
+  "FontSize12": 0.75rem,
+  "FontSize13": 0.8125rem,
+  "FontSize14": 0.875rem,
+  "FontSize15": 0.9375rem,
+);
+
+@mixin text-fontSize($fontSize) {
+  font-size: $fontSize;
+}
+
+@each $key, $fontSize in $text-font-sizes {
+  .#{$key} {
+    @include text-fontSize($fontSize);
+  }
+}
+
+// Text Font Weights Map
+$text-font-weights: (
+  "FontWeight400": 400,
+  "FontWeight600": 600,
+  "FontWeight700": 700,
+);
+
+@mixin text-fontWeight($fontWeight) {
+  font-weight: $fontWeight;
+}
+
+@each $key, $fontWeight in $text-font-weights {
+  .#{$key} {
+    @include text-fontWeight($fontWeight);
+  }
+}
