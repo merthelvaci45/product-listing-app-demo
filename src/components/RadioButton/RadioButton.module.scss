@@ -1,0 +1,59 @@
+@import "../../scss/variables";
+
+.Label {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 20px;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Hide the browser's default radio button */
+.Label input {
+  position: absolute;
+  opacity: 0;
+}
+
+/* Create a custom radio button */
+.Checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 2px solid #dfdee2;
+}
+
+/* When the radio button is checked, add a blue background */
+.Label input:checked ~ .Checkmark {
+  background-color: transparent;
+  border: 2px solid $primary;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.Checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.Label input:checked ~ .Checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.Label .Checkmark:after {
+  top: 1.5px;
+  left: 6px;
+  width: 6px;
+  height: 11px;
+  border: 1px solid $primary;
+  border-width: 0 1px 1px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
