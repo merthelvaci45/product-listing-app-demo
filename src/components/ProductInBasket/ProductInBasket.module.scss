@@ -1,0 +1,26 @@
+@import "../../scss/mixins";
+@import "../../scss/variables";
+
+.ProductInBasket {
+  @include display_flex(row, space-between, center);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.ProductNameAndPrice {
+  flex: 1.5;
+  @include display_flex(column, center, flex-start);
+}
+
+.ProductQuantity {
+  flex: 1;
+  @include display_flex(row, space-between, center);
+
+  div {
+    @include display_flex;
+    background-color: $primary;
+    width: 2rem;
+    height: 2rem;
+  }
+}
