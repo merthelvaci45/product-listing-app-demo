@@ -1,0 +1,40 @@
+@import "../../scss/variables";
+
+.AllProducts {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ItemTypes {
+  margin-bottom: 1rem;
+}
+
+.ProductsList {
+  display: grid;
+  grid-template-columns: 7.75rem 7.75rem;
+  grid-template-rows: repeat(8, 14rem);
+  column-gap: 1rem;
+  row-gap: 1rem;
+  margin: 0 auto 2rem;
+  padding: 1.25rem;
+  background-color: $white;
+}
+
+@media (min-width: 1200px) {
+  .LeftSection {
+    width: 100%;
+    padding-right: 1rem;
+  }
+
+  .RightSection {
+    width: 100%;
+    padding-left: 1rem;
+  }
+
+  .ProductsList {
+    grid-template-columns: 7.75rem 7.75rem 7.75rem 7.75rem;
+    grid-template-rows: repeat(4, 14rem);
+    column-gap: 1.5rem;
+    row-gap: 1.25rem;
+  }
+}
