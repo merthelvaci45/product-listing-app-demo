@@ -1,0 +1,15 @@
+@import "../../scss/variables";
+
+.Input {
+  width: 100%;
+  border: 2px solid $gray-100;
+  border-radius: 0.125rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  color: $gray-300;
+  font-size: 0.875rem;
+
+  &::placeholder {
+    color: $gray-100;
+  }
+}
