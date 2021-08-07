@@ -1,0 +1,20 @@
+@import "../../scss/variables";
+
+.Button {
+  border: none;
+  padding: 0.25rem;
+  width: 100%;
+  font-size: 0.75rem;
+  border-radius: 0.125rem;
+  color: $white;
+}
+
+.Primary {
+  background-color: $primary;
+}
+
+/* @media (min-width: 768px) {
+  .Button {
+    width: 7.5rem;
+  }
+} */
