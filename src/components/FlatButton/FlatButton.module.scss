@@ -1,0 +1,15 @@
+@import "../../scss/variables";
+
+.FlatButton {
+  border: none;
+  background-color: transparent;
+  font-size: 0.875rem;
+}
+
+.Primary {
+  color: $primary;
+}
+
+.DarkGray {
+  color: $gray-500;
+}
