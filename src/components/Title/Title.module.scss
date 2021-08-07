@@ -1,0 +1,15 @@
+@import "../../scss/variables";
+
+.MainTitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: $title-primary;
+  margin-bottom: 1rem;
+}
+
+.SubTitle {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: $gray-500;
+  margin-bottom: 0.75rem;
+}
