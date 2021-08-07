@@ -1,0 +1,25 @@
+@import "../../scss/mixins";
+
+.Pagination {
+  @include display_flex(row, space-between, center);
+  border: 2px solid black;
+  height: 2.5rem;
+  width: 90%;
+  margin: 0 auto 8.5rem;
+
+  i:first-of-type {
+    margin-right: 0.5rem;
+  }
+
+  i:last-of-type {
+    margin-left: 0.5rem;
+  }
+}
+
+.PageNumbers {
+  @include display_flex(row, space-around, center);
+  flex: 1;
+  border: 1px solid black;
+  height: 100%;
+  padding: 0 3.5rem;
+}
