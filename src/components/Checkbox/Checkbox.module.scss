@@ -1,0 +1,73 @@
+@import "../../scss/variables";
+
+.Label {
+  display: flex;
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 1.25rem;
+
+  span:first-of-type {
+    margin-right: 0.25rem;
+  }
+}
+
+/* Hide the default checkbox */
+input[type="checkbox"] {
+  visibility: hidden;
+}
+
+/* Creating a custom checkbox */
+.Checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  box-shadow: 0px 1px 7px 0px #5d38c066;
+  -moz-box-shadow: 0px 1px 7px 0px #5d38c066;
+  -webkit-box-shadow: 0px 1px 7px 0px #5d38c066;
+  background-color: $white;
+  border-radius: 2px;
+}
+
+/* Specify the background color to be
+      shown when checkbox is active */
+.Label input:active ~ .Checkmark {
+  background-color: $primary;
+}
+
+/* Specify the background color to be
+ * shown when checkbox is checked 
+ */
+.Label input:checked ~ .Checkmark {
+  background-color: $primary;
+}
+
+/* Checkmark to be shown in checkbox */
+/* It is not be shown when not checked */
+.Checkmark:after {
+  position: absolute;
+  content: "";
+  display: none;
+}
+
+/* Display checkmark when checked */
+.Label input:checked ~ .Checkmark:after {
+  display: block;
+}
+
+/* Styling the checkmark using webkit */
+/* Rotated the rectangle by 45 degree and 
+          showing only two border to make it look
+          like a tickmark */
+.Label .Checkmark:after {
+  top: 2px;
+  left: 8px;
+  width: 6px;
+  height: 12px;
+  border: 1px solid $white;
+  border-width: 0 1px 1px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
