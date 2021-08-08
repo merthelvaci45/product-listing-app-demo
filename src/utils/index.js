@@ -5,8 +5,8 @@ import {
   PAGE_ROUTES,
   SORT_OPTIONS,
 } from "./constants";
-
 import findNumberOfOccurencesOfItemsInArray from "./findNumberOfOccurencesOfItemsInArray";
+import initialSortingRadioButtonsState from "./localInitialStates";
 
 export {
   API_METHODS,
@@ -15,4 +15,5 @@ export {
   PAGE_ROUTES,
   SORT_OPTIONS,
   findNumberOfOccurencesOfItemsInArray,
+  initialSortingRadioButtonsState,
 };
