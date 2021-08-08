@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import classes from "./AllProducts.module.scss";
 
-import Checkbox from "../../components/Checkbox";
-import FeatureCardWithTitle from "../../components/FeatureCardWithTitle";
-import Input from "../../components/Input";
 import ItemType from "../../components/ItemType";
 import Layout from "../../components/Layout";
 import Basket from "../../components/Basket";
 import Pagination from "../../components/Pagination";
 import ProductCard from "../../components/ProductCard";
-import RadioButton from "../../components/RadioButton";
+import SortingAndFilteringSection from "../../components/SortingAndFilteringSection";
 import Spinner from "../../components/Spinner";
 import Title from "../../components/Title";
 
@@ -23,18 +20,15 @@ import {
 
 import { productsActions } from "../../store/slices";
 
-import { ITEMS_API_BASE_URL, SORT_OPTIONS } from "../../utils";
+import { ITEMS_API_BASE_URL } from "../../utils";
 
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug");
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cartSlice.cart);
 
   const [itemsData, isItemsDataLoading] = useAPI({
     queryPath: ITEMS_API_BASE_URL,
   });
-
-  console.log("cart: ", cart);
 
   useEffect(() => {
     if (itemsData !== undefined && itemsData.length > 0) {
@@ -65,55 +59,7 @@ const AllProducts = () => {
   ) : (
     <Layout>
       <div className={classes.AllProducts}>
-        <section className={classes.LeftSection}>
-          <FeatureCardWithTitle isFixedHeight title="Sorting">
-            {SORT_OPTIONS.map((option, index) => (
-              <RadioButton
-                key={option.id}
-                id={option.id}
-                isChecked={index === 0}
-                label={option.label}
-                onChanged={() => {}}
-              />
-            ))}
-          </FeatureCardWithTitle>
-          <FeatureCardWithTitle title="Brands">
-            <Input
-              id="brand"
-              onChanged={() => {}}
-              placeholder="Search brand"
-              value=""
-            />
-            {Object.keys(manufacturers).map((manufacturer) => (
-              <Checkbox
-                key={manufacturer}
-                id={manufacturer}
-                isChecked={false}
-                label={manufacturer}
-                quantity={manufacturers[manufacturer]}
-                onChanged={() => {}}
-              />
-            ))}
-          </FeatureCardWithTitle>
-          <FeatureCardWithTitle title="Tags">
-            <Input
-              id="tag"
-              onChanged={() => {}}
-              placeholder="Search tag"
-              value=""
-            />
-            {Object.keys(tags).map((tag) => (
-              <Checkbox
-                key={tag}
-                id={tag}
-                isChecked={false}
-                label={tag}
-                quantity={tags[tag]}
-                onChanged={() => {}}
-              />
-            ))}
-          </FeatureCardWithTitle>
-        </section>
+        <SortingAndFilteringSection manufacturers={manufacturers} tags={tags} />
         <section>
           <Title title="Products" />
           <div className={classes.ItemTypes}>
@@ -150,9 +96,7 @@ const AllProducts = () => {
             <Pagination />
           </div>
         </section>
-        <section className={classes.RightSection}>
-          <Basket />
-        </section>
+        <Basket />
       </div>
     </Layout>
   );
