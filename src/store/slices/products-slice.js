@@ -43,10 +43,6 @@ const productsSlice = createSlice({
           break;
       }
       state.products = sortedProducts;
-      state.products.forEach((product, index) => {
-        if (index > 5) return;
-        console.log(`name: ${product.name}\nprice: ${product.price}\n\n`);
-      });
     },
   },
 });
