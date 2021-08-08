@@ -4,8 +4,13 @@
   box-sizing: border-box;
 }
 
-@mixin display_flex($flex-dir: row, $jc: space-around, $ai: center) {
-  display: flex;
+@mixin display_flex(
+  $flex-dir: row,
+  $jc: space-around,
+  $ai: center,
+  $display: flex
+) {
+  display: $display;
   flex-direction: $flex-dir;
   justify-content: $jc;
   align-items: $ai;
