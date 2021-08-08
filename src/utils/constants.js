@@ -13,9 +13,16 @@ export const PAGE_ROUTES = {
   products: "/",
 };
 
+export const SORT_OPTIONS_IDS = {
+  ASCENDING_PRICE: "ascendingPrice",
+  DESCENDING_PRICE: "descendingPrice",
+  TO_OLDEST: "toOldest",
+  TO_NEWEST: "toNewest",
+};
+
 export const SORT_OPTIONS = [
-  { id: "ascendingPrice", label: "Price low to high" },
-  { id: "descendingPrice", label: "Price high to low" },
-  { id: "toOldest", label: "New to old" },
-  { id: "toNewest", label: "Old to new" },
+  { id: SORT_OPTIONS_IDS.ASCENDING_PRICE, label: "Price low to high" },
+  { id: SORT_OPTIONS_IDS.DESCENDING_PRICE, label: "Price high to low" },
+  { id: SORT_OPTIONS_IDS.TO_OLDEST, label: "New to old" },
+  { id: SORT_OPTIONS_IDS.TO_NEWEST, label: "Old to new" },
 ];
