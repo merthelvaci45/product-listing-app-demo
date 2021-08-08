@@ -51,7 +51,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     if (itemsData !== undefined && itemsData.length > 0) {
-      dispatch(productsActions.populateProducts({ products: itemsData }));
+      dispatch(productsActions.fetchProducts({ products: itemsData }));
     }
   }, [itemsData, dispatch]);
 

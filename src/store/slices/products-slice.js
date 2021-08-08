@@ -4,6 +4,7 @@ import { initialSortingRadioButtonsState, SORT_OPTIONS_IDS } from "../../utils";
 
 const initialState = {
   products: [],
+  filteredProducts: [],
   sortingOptions: initialSortingRadioButtonsState,
 };
 
@@ -11,7 +12,7 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    populateProducts(state, action) {
+    fetchProducts(state, action) {
       state.products = [...action.payload.products];
     },
     sortProductsBy(state, action) {
@@ -43,6 +44,9 @@ const productsSlice = createSlice({
           break;
       }
       state.products = sortedProducts;
+    },
+    filterProductsBy(state, action) {
+      console.log("FILTERING PRODUCTS...");
     },
   },
 });
