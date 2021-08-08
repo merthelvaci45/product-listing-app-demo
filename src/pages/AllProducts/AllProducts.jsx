@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import classes from "./AllProducts.module.scss";
 
 import Checkbox from "../../components/Checkbox";
@@ -9,15 +12,57 @@ import Basket from "../../components/Basket";
 import Pagination from "../../components/Pagination";
 import ProductCard from "../../components/ProductCard";
 import RadioButton from "../../components/RadioButton";
+import Spinner from "../../components/Spinner";
 import Title from "../../components/Title";
 
-import { SORT_OPTIONS } from "../../utils";
+import {
+  useAPI,
+  useManufacturerCountForItemType,
+  useTagCountForItemType,
+} from "../../hooks";
 
-const indices = Array.from({ length: 16 }, (_, i) => i + 1);
-const checkboxes = Array.from({ length: 12 }, (_, i) => i + 1);
+import { productsActions } from "../../store/slices";
+
+import { ITEMS_API_BASE_URL, SORT_OPTIONS } from "../../utils";
 
 const AllProducts = () => {
-  return (
+  const [itemType, setItemType] = useState("mug");
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cartSlice.cart);
+
+  const [itemsData, isItemsDataLoading] = useAPI({
+    queryPath: ITEMS_API_BASE_URL,
+  });
+
+  console.log("cart: ", cart);
+
+  useEffect(() => {
+    if (itemsData !== undefined && itemsData.length > 0) {
+      dispatch(productsActions.populateProducts({ products: itemsData }));
+    }
+  }, [itemsData, dispatch]);
+
+  const manufacturersForMugType = useManufacturerCountForItemType(
+    itemsData,
+    "mug"
+  );
+  const manufacturersForShirtType = useManufacturerCountForItemType(
+    itemsData,
+    "shirt"
+  );
+
+  const tagsForMugType = useTagCountForItemType(itemsData, "mug");
+  const tagsForShirtType = useTagCountForItemType(itemsData, "shirt");
+
+  const setItemTypeHandler = (itemType) => setItemType(itemType);
+
+  const manufacturers =
+    itemType === "mug" ? manufacturersForMugType : manufacturersForShirtType;
+  const tags = itemType === "mug" ? tagsForMugType : tagsForShirtType;
+
+  return isItemsDataLoading ? (
+    <Spinner />
+  ) : (
     <Layout>
       <div className={classes.AllProducts}>
         <section className={classes.LeftSection}>
@@ -33,26 +78,38 @@ const AllProducts = () => {
             ))}
           </FeatureCardWithTitle>
           <FeatureCardWithTitle title="Brands">
-            <Input onChanged={() => {}} placeholder="Search brand" value="" />
-            {checkboxes.map((i) => (
+            <Input
+              id="brand"
+              onChanged={() => {}}
+              placeholder="Search brand"
+              value=""
+            />
+            {Object.keys(manufacturers).map((manufacturer) => (
               <Checkbox
-                id="first"
-                //isChecked={isChecked}
-                label="All"
-                quantity={18}
-                //onChanged={checkHandler}
+                key={manufacturer}
+                id={manufacturer}
+                isChecked={false}
+                label={manufacturer}
+                quantity={manufacturers[manufacturer]}
+                onChanged={() => {}}
               />
             ))}
           </FeatureCardWithTitle>
           <FeatureCardWithTitle title="Tags">
-            <Input onChanged={() => {}} placeholder="Search tag" value="" />
-            {checkboxes.map((i) => (
+            <Input
+              id="tag"
+              onChanged={() => {}}
+              placeholder="Search tag"
+              value=""
+            />
+            {Object.keys(tags).map((tag) => (
               <Checkbox
-                id="first"
-                //isChecked={isChecked}
-                label="All"
-                quantity={18}
-                //onChanged={checkHandler}
+                key={tag}
+                id={tag}
+                isChecked={false}
+                label={tag}
+                quantity={tags[tag]}
+                onChanged={() => {}}
               />
             ))}
           </FeatureCardWithTitle>
@@ -60,17 +117,34 @@ const AllProducts = () => {
         <section>
           <Title title="Products" />
           <div className={classes.ItemTypes}>
-            <ItemType itemType="mug" />
-            <ItemType isContrasted itemType="shirt" />
+            <ItemType
+              isSelected={itemType === "mug"}
+              itemType="mug"
+              onClicked={setItemTypeHandler.bind(this, "mug")}
+            />
+            <ItemType
+              isSelected={itemType === "shirt"}
+              itemType="shirt"
+              onClicked={setItemTypeHandler.bind(this, "shirt")}
+            />
           </div>
           <div className={classes.ProductsList}>
-            {indices.map((i) => (
-              <ProductCard
-                key={i}
-                price={14.99}
-                productName="Rustic Beach Mug"
-              />
-            ))}
+            {itemsData
+              ?.filter((item) => item.itemType === itemType)
+              .map((product, index) => {
+                if (index < 16) {
+                  return (
+                    <ProductCard
+                      key={product.slug}
+                      id={product.slug}
+                      price={product.price}
+                      productName={product.name}
+                    />
+                  );
+                }
+
+                return null;
+              })}
           </div>
           <div className={classes.Pagination}>
             <Pagination />
