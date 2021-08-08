@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import classes from "./SortingAndFilteringSection.module.scss";
@@ -7,19 +8,31 @@ import FeatureCardWithTitle from "../FeatureCardWithTitle";
 import Input from "../Input";
 import RadioButton from "../RadioButton";
 
+import { productsActions } from "../../store/slices";
 import { SORT_OPTIONS } from "../../utils";
 
 const SortingAndFilteringSection = ({ manufacturers, tags }) => {
+  const dispatch = useDispatch();
+  const sortingOptions = useSelector(
+    (state) => state.productsSlice.sortingOptions
+  );
+
+  const sortProductsByOptionHandler = (optionId) => {
+    dispatch(
+      productsActions.sortProductsBy({ selectedSortingOption: optionId })
+    );
+  };
+
   return (
     <section className={classes.LeftSection}>
       <FeatureCardWithTitle isFixedHeight title="Sorting">
-        {SORT_OPTIONS.map((option, index) => (
+        {SORT_OPTIONS.map((option) => (
           <RadioButton
             key={option.id}
             id={option.id}
-            isChecked={index === 0}
+            isChecked={sortingOptions[option.id]}
             label={option.label}
-            onChanged={() => {}}
+            onChanged={sortProductsByOptionHandler.bind(this, option.id)}
           />
         ))}
       </FeatureCardWithTitle>
