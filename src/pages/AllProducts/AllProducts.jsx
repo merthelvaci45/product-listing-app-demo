@@ -31,12 +31,6 @@ const AllProducts = () => {
     queryPath: ITEMS_API_BASE_URL,
   });
 
-  useEffect(() => {
-    if (itemsData !== undefined && itemsData.length > 0) {
-      dispatch(productsActions.populateProducts({ products: itemsData }));
-    }
-  }, [itemsData, dispatch]);
-
   const manufacturersForMugType = useManufacturerCountForItemType(
     itemsData,
     "mug"
@@ -49,11 +43,17 @@ const AllProducts = () => {
   const tagsForMugType = useTagCountForItemType(itemsData, "mug");
   const tagsForShirtType = useTagCountForItemType(itemsData, "shirt");
 
-  const setItemTypeHandler = (itemType) => setItemType(itemType);
-
   const manufacturers =
     itemType === "mug" ? manufacturersForMugType : manufacturersForShirtType;
   const tags = itemType === "mug" ? tagsForMugType : tagsForShirtType;
+
+  const setItemTypeHandler = (itemType) => setItemType(itemType);
+
+  useEffect(() => {
+    if (itemsData !== undefined && itemsData.length > 0) {
+      dispatch(productsActions.populateProducts({ products: itemsData }));
+    }
+  }, [itemsData, dispatch]);
 
   return isItemsDataLoading ? (
     <Spinner />
