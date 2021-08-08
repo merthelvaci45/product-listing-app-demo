@@ -1,1 +1,5 @@
+@import "../../scss/mixins";
 
+.ProductCard {
+  @include display_flex(column, space-between, flex-start);
+}
