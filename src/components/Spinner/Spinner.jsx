@@ -6,7 +6,7 @@ import classes from "./Spinner.module.scss";
  */
 const Spinner = () => {
   return (
-    <div role="none" class={classes.Spinner}>
+    <div role="none" className={classes.Spinner}>
       <div></div>
       <div></div>
       <div></div>
