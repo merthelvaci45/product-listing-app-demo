@@ -1,16 +1,28 @@
+@import "../../scss/mixins";
 @import "../../scss/variables";
 
 .Button {
   border: none;
-  padding: 0.25rem;
-  width: 100%;
   font-size: 0.75rem;
   border-radius: 0.125rem;
   color: $white;
 }
 
+.BlockButton {
+  padding: 0.25rem;
+  width: 100%;
+}
+
+.InlineButton {
+  @include display_flex(row, center, center, inline-flex);
+}
+
 .Primary {
   background-color: $primary;
+}
+
+.Secondary {
+  background-color: $light-blue;
 }
 
 /* @media (min-width: 768px) {
