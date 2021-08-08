@@ -13,7 +13,7 @@ const ProductCard = ({ id, price, productName }) => {
   const dispatch = useDispatch();
 
   const addProductToCartHandler = () => {
-    dispatch(cartActions.addItemToCart({ id, productName, price }));
+    dispatch(cartActions.addItemToCart({ id, name: productName, price }));
   };
 
   return (
