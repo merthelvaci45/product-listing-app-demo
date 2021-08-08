@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./AllProducts.module.scss";
 
@@ -25,6 +25,7 @@ import { ITEMS_API_BASE_URL } from "../../utils";
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug");
   const dispatch = useDispatch();
+  const products = useSelector((state) => state.productsSlice.products);
 
   const [itemsData, isItemsDataLoading] = useAPI({
     queryPath: ITEMS_API_BASE_URL,
@@ -75,7 +76,7 @@ const AllProducts = () => {
             />
           </div>
           <div className={classes.ProductsList}>
-            {itemsData
+            {products
               ?.filter((item) => item.itemType === itemType)
               .map((product, index) => {
                 if (index < 16) {
