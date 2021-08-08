@@ -2,27 +2,34 @@ import PropTypes from "prop-types";
 
 import classes from "./ItemType.module.scss";
 
+import Button from "../Button";
 import Text from "../Text";
 
-const ItemType = ({ isContrasted, itemType }) => {
+const ItemType = ({ isSelected, onClicked, itemType }) => {
   return (
-    <div
-      className={`${classes.ItemType} ${
-        isContrasted ? classes.LightBlueBg : classes.PrimaryBg
-      }`}
+    <Button
+      onClicked={onClicked}
+      overrideClassName={classes.ItemType}
+      type={!isSelected ? "Secondary" : "Primary"}
     >
       <Text
-        color={isContrasted ? "Primary" : "LightBlue"}
+        color={!isSelected ? "Primary" : "LightBlue"}
         fontSize="FontSize13"
         fontWeight="FontWeight600"
         text={itemType}
       />
-    </div>
+    </Button>
   );
 };
 
 ItemType.propTypes = {
+  isSelected: PropTypes.bool,
   itemType: PropTypes.string.isRequired,
+  onClicked: PropTypes.func.isRequired,
+};
+
+ItemType.defaultProps = {
+  isSelected: false,
 };
 
 export default ItemType;
