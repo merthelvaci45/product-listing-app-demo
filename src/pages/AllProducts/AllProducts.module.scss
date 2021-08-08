@@ -21,16 +21,6 @@
 }
 
 @media (min-width: 1200px) {
-  .LeftSection {
-    width: 100%;
-    padding-right: 1rem;
-  }
-
-  .RightSection {
-    width: 100%;
-    padding-left: 1rem;
-  }
-
   .ProductsList {
     grid-template-columns: 7.75rem 7.75rem 7.75rem 7.75rem;
     grid-template-rows: repeat(4, 14rem);
