@@ -20,3 +20,10 @@
   border: 2px solid $primary;
   align-self: flex-end;
 }
+
+@media (min-width: 1200px) {
+  .RightSection {
+    width: 100%;
+    padding-left: 1rem;
+  }
+}
