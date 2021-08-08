@@ -7,7 +7,6 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     populateProducts(state, action) {
-      state.isProductsLoading = false;
       state.products = [...action.payload.products];
     },
   },
