@@ -17,15 +17,16 @@ import {
   useManufacturerCountForItemType,
   useTagCountForItemType,
 } from "../../hooks";
-
 import { productsActions } from "../../store/slices";
-
 import { ITEMS_API_BASE_URL } from "../../utils";
 
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug");
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.productsSlice.products);
+  const { products, productsInPage } = useSelector(
+    (state) => state.productsSlice
+  );
+  const pageNumber = useSelector((state) => state.paginationSlice.pageNumber);
 
   const [itemsData, isItemsDataLoading] = useAPI({
     queryPath: ITEMS_API_BASE_URL,
@@ -55,6 +56,10 @@ const AllProducts = () => {
     }
   }, [itemsData, dispatch]);
 
+  useEffect(() => {
+    dispatch(productsActions.fetchProductsForPage({ pageNumber, itemType }));
+  }, [dispatch, itemType, pageNumber, products]);
+
   return isItemsDataLoading ? (
     <Spinner />
   ) : (
@@ -76,26 +81,18 @@ const AllProducts = () => {
             />
           </div>
           <div className={classes.ProductsList}>
-            {products
-              ?.filter((item) => item.itemType === itemType)
-              .map((product, index) => {
-                if (index < 16) {
-                  return (
-                    <ProductCard
-                      key={product.slug}
-                      id={product.slug}
-                      price={product.price}
-                      productName={product.name}
-                    />
-                  );
-                }
-
-                return null;
-              })}
+            {productsInPage?.map((product) => (
+              <ProductCard
+                key={product.slug}
+                id={product.slug}
+                price={product.price}
+                productName={product.name}
+              />
+            ))}
           </div>
           <div className={classes.Pagination}>
             <Pagination
-              totalNumberOfPages={Math.ceil(itemsData?.length / 16)}
+              totalNumberOfPages={Math.ceil(itemsData?.length / 32)}
             />
           </div>
         </section>
