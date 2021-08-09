@@ -25,11 +25,11 @@ const Pagination = ({ totalNumberOfPages }) => {
 
   const setPageNumberHandler = ({ currentTarget }) => {
     const { id } = currentTarget;
-    dispatch(paginationActions.setPageNumberTo(parseInt(id)));
+    id !== "..." && dispatch(paginationActions.setPageNumberTo(parseInt(id)));
   };
 
   useEffect(() => {
-    dispatch(paginationActions.setTotalPageNumbers(totalNumberOfPages));
+    dispatch(paginationActions.setTotalPageNumbers({ totalNumberOfPages }));
   }, [dispatch, totalNumberOfPages]);
 
   return (
