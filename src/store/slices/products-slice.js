@@ -4,7 +4,10 @@ import { initialSortingRadioButtonsState, SORT_OPTIONS_IDS } from "../../utils";
 
 const initialState = {
   products: [],
-  filteredProducts: [],
+  //filteredProducts: [], ==> DECIDED TO HAVE NO FUNCTIONALITY, BUT KEPT HERE FOR REFERENCE ANYWAY...
+  productsInPage: [],
+  mugTypeProducts: [],
+  shirtTypeProducts: [],
   sortingOptions: initialSortingRadioButtonsState,
 };
 
@@ -14,6 +17,25 @@ const productsSlice = createSlice({
   reducers: {
     fetchProducts(state, action) {
       state.products = [...action.payload.products];
+    },
+    fetchProductsForPage(state, action) {
+      const { pageNumber, itemType } = action.payload;
+      const totalNumberOfProducts = state.products.length;
+      state.mugTypeProducts = state.products.slice(
+        0,
+        totalNumberOfProducts / 2
+      );
+      state.shirtTypeProducts = state.products.slice(
+        totalNumberOfProducts / 2,
+        totalNumberOfProducts
+      );
+      state.productsInPage =
+        itemType === "mug"
+          ? state.mugTypeProducts.slice((pageNumber - 1) * 16, 16 * pageNumber)
+          : state.shirtTypeProducts.slice(
+              (pageNumber - 1) * 16,
+              16 * pageNumber
+            );
     },
     sortProductsBy(state, action) {
       const { selectedSortingOption } = action.payload;
@@ -46,7 +68,18 @@ const productsSlice = createSlice({
       state.products = sortedProducts;
     },
     filterProductsBy(state, action) {
-      console.log("FILTERING PRODUCTS...");
+      let allProducts = [...state.products];
+      const { brandsCheckboxStates } = action.payload;
+
+      if (!brandsCheckboxStates.All) {
+        let filteredProducts = allProducts.filter(
+          (product) => brandsCheckboxStates[product.manufacturer]
+        );
+        state.products = filteredProducts;
+      } else {
+        console.log("state.products: ", state.products);
+        state.products = allProducts;
+      }
     },
   },
 });
