@@ -94,7 +94,9 @@ const AllProducts = () => {
               })}
           </div>
           <div className={classes.Pagination}>
-            <Pagination />
+            <Pagination
+              totalNumberOfPages={Math.ceil(itemsData?.length / 16)}
+            />
           </div>
         </section>
         <Basket />
