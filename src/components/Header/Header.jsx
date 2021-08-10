@@ -1,33 +1,52 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
-//import PropTypes from "prop-types";
 
 import classes from "./Header.module.scss";
 
+import Basket from "../Basket";
+import FlatButton from "../FlatButton";
 import Logo from "../Logo";
+import Modal from "../Modal";
 import Text from "../Text";
 
 const Header = () => {
+  const [
+    isShoppingCartDisplayedForMobile,
+    setIsShoppingCartDisplayedForMobile,
+  ] = useState(false);
   const totalPrice = useSelector((state) => state.cartSlice.totalPrice);
 
+  const displayShoppingCartForMobileHandler = () =>
+    setIsShoppingCartDisplayedForMobile(true);
+  const hideShoppingCartForMobileHandler = () =>
+    setIsShoppingCartDisplayedForMobile(false);
+
   return (
-    <header className={classes.Header}>
-      <div className={classes.ContainerFluid}>
-        <Logo />
-        <div className={classes.TotalPrice}>
-          <i className="fas fa-shopping-bag"></i>
-          <Text
-            color="White"
-            fontWeight="FontWeight600"
-            text={`₺ ${totalPrice.toFixed(2)}`}
-          />
+    <>
+      <Modal
+        isModalOpen={isShoppingCartDisplayedForMobile}
+        onDismissModal={hideShoppingCartForMobileHandler}
+      >
+        <Basket />
+      </Modal>
+      <header className={classes.Header}>
+        <FlatButton onPressed={displayShoppingCartForMobileHandler}>
+          <i className="fas fa-shopping-cart"></i>
+        </FlatButton>
+        <div className={classes.ContainerFluid}>
+          <Logo />
+          <div className={classes.TotalPrice}>
+            <i className="fas fa-shopping-bag"></i>
+            <Text
+              color="White"
+              fontWeight="FontWeight600"
+              text={`₺ ${totalPrice.toFixed(2)}`}
+            />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
-
-/* Header.propTypes = {
-  onToggleMenu: PropTypes.func.isRequired,
-}; */
 
 export default Header;
