@@ -4,11 +4,13 @@ import { initialSortingRadioButtonsState, SORT_OPTIONS_IDS } from "../../utils";
 
 const initialState = {
   products: [],
-  //filteredProducts: [], ==> DECIDED TO HAVE NO FUNCTIONALITY, BUT KEPT HERE FOR REFERENCE ANYWAY...
+  filteredProducts: [],
   productsInPage: [],
   mugTypeProducts: [],
   shirtTypeProducts: [],
   sortingOptions: initialSortingRadioButtonsState,
+  isBrandFilteringApplied: false,
+  isTagFilteringApplied: false,
 };
 
 const productsSlice = createSlice({
@@ -20,15 +22,17 @@ const productsSlice = createSlice({
     },
     fetchProductsForPage(state, action) {
       const { pageNumber, itemType } = action.payload;
-      const totalNumberOfProducts = state.products.length;
-      state.mugTypeProducts = state.products.slice(
-        0,
-        totalNumberOfProducts / 2
+      const availableProducts =
+        !state.isBrandFilteringApplied && !state.isTagFilteringApplied
+          ? state.products
+          : state.filteredProducts;
+      state.mugTypeProducts = availableProducts.filter(
+        (product) => product.itemType === "mug"
       );
-      state.shirtTypeProducts = state.products.slice(
-        totalNumberOfProducts / 2,
-        totalNumberOfProducts
+      state.shirtTypeProducts = availableProducts.filter(
+        (product) => product.itemType === "shirt"
       );
+
       state.productsInPage =
         itemType === "mug"
           ? state.mugTypeProducts.slice((pageNumber - 1) * 16, 16 * pageNumber)
@@ -43,8 +47,12 @@ const productsSlice = createSlice({
         ...initialSortingRadioButtonsState,
         [selectedSortingOption]: true,
       };
+      const isFilteringApplied =
+        state.isTagFilteringApplied || state.isBrandFilteringApplied;
 
-      let sortedProducts = [...state.products];
+      const sortedProducts = isFilteringApplied
+        ? [...state.filteredProducts]
+        : [...state.products];
       switch (selectedSortingOption) {
         case SORT_OPTIONS_IDS.ASCENDING_PRICE:
           sortedProducts.sort((first, second) => first.price - second.price);
@@ -65,20 +73,72 @@ const productsSlice = createSlice({
         default:
           break;
       }
-      state.products = sortedProducts;
+      if (isFilteringApplied) {
+        state.filteredProducts = sortedProducts;
+      } else {
+        state.products = sortedProducts;
+      }
     },
     filterProductsBy(state, action) {
-      let allProducts = [...state.products];
-      const { brandsCheckboxStates } = action.payload;
+      const { brandsCheckboxStates, tagsCheckboxStates } = action.payload;
 
-      if (!brandsCheckboxStates.All) {
-        let filteredProducts = allProducts.filter(
-          (product) => brandsCheckboxStates[product.manufacturer]
-        );
-        state.products = filteredProducts;
-      } else {
-        console.log("state.products: ", state.products);
-        state.products = allProducts;
+      /**
+       * Since "brandsCheckboxStates" is an empty object for the 1st render,
+       * this extra if check is used here, i.e, filtering action should only
+       * be applied when "brandsCheckboxStates" is populated with proper
+       * checkbox states. Checking "brandsCheckboxStates.hasOwnProperty('All')"
+       * boolean value will state that whether "brandsCheckboxStates" object
+       * has finished being populated or not.
+       * ------------------------------------------------------------------------
+       * Using the same logic, since "tagsCheckboxStates" is an empty object
+       * for the 1st render, this extra if check is used here, i.e, filtering
+       * action should only be applied when "tagsCheckboxStates" is populated
+       * with proper checkbox states. Checking "tagsCheckboxStates.hasOwnProperty('All')"
+       * boolean value will state that whether "tagsCheckboxStates" object
+       * has finished being populated or not.
+       */
+      if (
+        brandsCheckboxStates.hasOwnProperty("Brands - All") &&
+        tagsCheckboxStates.hasOwnProperty("Tags - All")
+      ) {
+        if (!brandsCheckboxStates["Brands - All"]) {
+          state.isBrandFilteringApplied = true;
+          if (
+            Object.values(brandsCheckboxStates).every(
+              (checkboxState) => !checkboxState
+            )
+          ) {
+            state.filteredProducts = [];
+          } else {
+            const filteredProducts = [...state.products].filter(
+              (product) => brandsCheckboxStates[product.manufacturer]
+            );
+            state.filteredProducts = filteredProducts;
+          }
+        } else {
+          state.isBrandFilteringApplied = false;
+        }
+
+        if (!tagsCheckboxStates["Tags - All"]) {
+          state.isTagFilteringApplied = true;
+          if (
+            Object.values(tagsCheckboxStates).every(
+              (checkboxState) => !checkboxState
+            )
+          ) {
+            state.filteredProducts = [];
+          } else {
+            const availableProducts = state.isBrandFilteringApplied
+              ? [...state.filteredProducts]
+              : [...state.products];
+            const filteredProducts = availableProducts.filter((product) =>
+              product.tags.some((tag) => tagsCheckboxStates[tag])
+            );
+            state.filteredProducts = filteredProducts;
+          }
+        } else {
+          state.isTagFilteringApplied = false;
+        }
       }
     },
   },
