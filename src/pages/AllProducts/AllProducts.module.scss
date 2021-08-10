@@ -1,18 +1,13 @@
 @import "../../scss/mixins";
 @import "../../scss/variables";
 
-.AllProducts {
-  display: flex;
-  justify-content: space-between;
-}
-
 .ItemTypes {
   margin-bottom: 1rem;
 }
 
 .ProductsList {
   display: grid;
-  grid-template-columns: 7.75rem 7.75rem;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(8, 14rem);
   column-gap: 1rem;
   row-gap: 1rem;
@@ -21,11 +16,29 @@
   background-color: $white;
 }
 
+@media (min-width: 768px) {
+  .ProductsList {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(4, 14rem);
+    column-gap: 2rem;
+    row-gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ProductsList {
+    column-gap: 3.5rem;
+  }
+}
+
 @media (min-width: 1200px) {
+  .AllProducts {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .ProductsList {
     grid-template-columns: 7.75rem 7.75rem 7.75rem 7.75rem;
-    grid-template-rows: repeat(4, 14rem);
     column-gap: 1.5rem;
-    row-gap: 1.25rem;
   }
 }
