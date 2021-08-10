@@ -16,6 +16,7 @@ import {
   useAPI,
   useManufacturerCountForItemType,
   useTagCountForItemType,
+  useWindowDimensions,
 } from "../../hooks";
 import { productsActions } from "../../store/slices";
 import { ITEMS_API_BASE_URL } from "../../utils";
@@ -31,6 +32,8 @@ const AllProducts = () => {
     productsInPage,
   } = useSelector((state) => state.productsSlice);
   const pageNumber = useSelector((state) => state.paginationSlice.pageNumber);
+
+  const { width } = useWindowDimensions();
 
   const [itemsData, isItemsDataLoading] = useAPI({
     queryPath: ITEMS_API_BASE_URL,
@@ -124,7 +127,7 @@ const AllProducts = () => {
             </div>
           )}
         </section>
-        <Basket />
+        {width >= 1200 && <Basket />}
       </div>
     </Layout>
   );
