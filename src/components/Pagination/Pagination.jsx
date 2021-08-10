@@ -40,7 +40,6 @@ const Pagination = ({ totalNumberOfPages }) => {
       </FlatButton>
       <div className={classes.PageNumbers}>
         {pageNumbers.map((number) => {
-          //if (index === 4) return <span key={number}>...</span>;
           return (
             <FlatButton
               key={number}
