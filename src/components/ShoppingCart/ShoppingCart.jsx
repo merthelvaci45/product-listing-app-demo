@@ -1,17 +1,17 @@
 import { useSelector } from "react-redux";
-import classes from "./Basket.module.scss";
+import classes from "./ShoppingCart.module.scss";
 
 import ProductInBasket from "../ProductInBasket";
 import Text from "../Text";
 
-const Basket = () => {
+const ShoppingCart = () => {
   const cart = useSelector((state) => state.cartSlice.cart);
   const totalPrice = useSelector((state) => state.cartSlice.totalPrice);
 
   // TODO: add a condition for when cart.length = 0. display an informative text to user that s/he has no item(s) in basket
   return (
     <section className={classes.RightSection}>
-      <div className={classes.Basket}>
+      <div className={classes.ShoppingCart}>
         {cart.length === 0 ? (
           <span>No products available</span>
         ) : (
@@ -36,4 +36,4 @@ const Basket = () => {
   );
 };
 
-export default Basket;
+export default ShoppingCart;

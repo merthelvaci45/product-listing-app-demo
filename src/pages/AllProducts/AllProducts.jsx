@@ -5,7 +5,7 @@ import classes from "./AllProducts.module.scss";
 
 import ItemType from "../../components/ItemType";
 import Layout from "../../components/Layout";
-import Basket from "../../components/Basket";
+import ShoppingCart from "../../components/ShoppingCart";
 import Pagination from "../../components/Pagination";
 import ProductCard from "../../components/ProductCard";
 import SortingAndFilteringSection from "../../components/SortingAndFilteringSection";
@@ -127,7 +127,7 @@ const AllProducts = () => {
             </div>
           )}
         </section>
-        {width >= 1200 && <Basket />}
+        {width >= 1200 && <ShoppingCart />}
       </div>
     </Layout>
   );

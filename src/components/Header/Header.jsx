@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import classes from "./Header.module.scss";
 
-import Basket from "../Basket";
+import ShoppingCart from "../ShoppingCart";
 import FlatButton from "../FlatButton";
 import Logo from "../Logo";
 import Modal from "../Modal";
@@ -27,7 +27,7 @@ const Header = () => {
         isModalOpen={isShoppingCartDisplayedForMobile}
         onDismissModal={hideShoppingCartForMobileHandler}
       >
-        <Basket />
+        <ShoppingCart />
       </Modal>
       <header className={classes.Header}>
         <FlatButton onPressed={displayShoppingCartForMobileHandler}>

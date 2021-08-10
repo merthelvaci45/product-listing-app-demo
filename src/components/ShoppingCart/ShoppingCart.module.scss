@@ -1,7 +1,7 @@
 @import "../../scss/mixins";
 @import "../../scss/variables";
 
-.Basket {
+.ShoppingCart {
   @include display_flex(column, null, null);
   width: 100%;
   border: 8px solid $primary;
