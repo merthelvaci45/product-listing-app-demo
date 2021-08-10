@@ -1,4 +1,9 @@
+@import "../../scss/mixins";
 @import "../../scss/variables";
+
+.Wrapper {
+  @include display_flex;
+}
 
 .Modal {
   position: fixed;
