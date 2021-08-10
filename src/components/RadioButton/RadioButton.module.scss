@@ -7,6 +7,10 @@
   height: 20px;
   padding-left: 2rem;
   margin-bottom: 1rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 /* Hide the browser's default radio button */

@@ -9,6 +9,10 @@
   span:first-of-type {
     margin-right: 0.25rem;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 /* Hide the default checkbox */
