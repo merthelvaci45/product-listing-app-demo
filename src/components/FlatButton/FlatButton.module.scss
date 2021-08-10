@@ -4,6 +4,10 @@
   border: none;
   background-color: transparent;
   font-size: 0.875rem;
+
+  &:not([id="..."]):hover {
+    cursor: pointer;
+  }
 }
 
 .Primary {
