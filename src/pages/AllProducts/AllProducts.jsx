@@ -72,9 +72,9 @@ const AllProducts = () => {
     products,
   ]);
 
-  return isItemsDataLoading ? (
-    <Spinner />
-  ) : (
+  if (isItemsDataLoading) return <Spinner />;
+
+  return (
     <Layout>
       <div className={classes.AllProducts}>
         <SortingAndFilteringSection manufacturers={manufacturers} tags={tags} />
