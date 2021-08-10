@@ -24,7 +24,7 @@ import { productsActions } from "../../store/slices";
 import { ITEMS_API_BASE_URL } from "../../utils";
 
 const AllProducts = () => {
-  const [itemType, setItemType] = useState("mug");
+  const [itemType, setItemType] = useState("mug"); // state to keep track of products beloging to which itemType is listed
   const dispatch = useDispatch();
   const {
     filteredProducts,
@@ -39,7 +39,7 @@ const AllProducts = () => {
 
   const [itemsData, isItemsDataLoading] = useAPI({
     queryPath: ITEMS_API_BASE_URL,
-  });
+  }); // invoke hook to fetch "items" data from dummy backend API
 
   const manufacturersForMugType = useManufacturerCountForItemType(
     itemsData,
@@ -57,14 +57,25 @@ const AllProducts = () => {
     itemType === "mug" ? manufacturersForMugType : manufacturersForShirtType;
   const tags = itemType === "mug" ? tagsForMugType : tagsForShirtType;
 
+  // this handler function is responsible for setting "itemType" state based on selected "product" type at the top
   const setItemTypeHandler = (itemType) => setItemType(itemType);
 
+  /**
+   * this hook is responsible for populating "products" state of "productsSlice" slice of redux store
+   * with "itemsData", which is fetched from API
+   */
   useEffect(() => {
+    // dispatch this action only if data fetching did NOT occur before
     if (itemsData !== undefined && itemsData.length > 0) {
       dispatch(productsActions.fetchProducts({ products: itemsData }));
     }
   }, [itemsData, dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  /**
+   * this hook is responsible for fetching products of specific "itemType" displayed only for the current page.
+   * Note the content of the dependency array here. The purpose is to refetch products per page whenever any of
+   * these states is updated, otherwise, displayed data will be stale!
+   */
   useEffect(() => {
     dispatch(productsActions.fetchProductsForPage({ pageNumber, itemType }));
   }, [
@@ -77,7 +88,7 @@ const AllProducts = () => {
     products,
   ]);
 
-  if (isItemsDataLoading) return <Spinner />;
+  if (isItemsDataLoading) return <Spinner />; // while data fetching is in progress, display a loading Spinner
 
   return (
     <Layout>

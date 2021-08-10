@@ -23,16 +23,14 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
   const [brandsCheckboxStates, setBrandsCheckboxStates] = useState({});
   const [tagsCheckboxStates, setTagsCheckboxStates] = useState({});
 
-  const [isSortingBoxDisplayedForMobile, setIsSortingBoxDisplayedForMobile] =
+  // the following 3 states will be in action only for screen sizes < 1200px
+  const [isSortingBoxDisplayed, setIsSortingBoxDisplayed] = useState(false);
+
+  const [isBrandsFilteringBoxDisplayed, setIsBrandsFilteringBoxDisplayed] =
     useState(false);
-  const [
-    isBrandsFilteringBoxDisplayedForMobile,
-    setIsBrandsFilteringBoxDisplayedForMobile,
-  ] = useState(false);
-  const [
-    isTagsFilteringBoxDisplayedForMobile,
-    setIsTagsFilteringBoxDisplayedForMobile,
-  ] = useState(false);
+
+  const [isTagsFilteringBoxDisplayed, setIsTagsFilteringBoxDisplayed] =
+    useState(false);
 
   const { width } = useWindowDimensions();
 
@@ -41,18 +39,41 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     (state) => state.productsSlice.sortingOptions
   );
 
+  /**
+   * this handler function is responsible for updating filtering text field
+   * depending on which input field is currently being updated. In order to
+   * determine which input field is being updated, "id" prop is pulled out
+   * from "currentTarget" object, which is provided by browser.
+   */
   const setFilteringTextHandler = ({ currentTarget }) => {
     const { id, value } = currentTarget;
     if (id === "brand") return setBrandFilteringText(value);
     return setTagFilteringText(value);
   };
 
+  /**
+   * this handler function is responsible for dispatching action for performing
+   * sort operation for products.
+   */
   const sortProductsByOptionHandler = (optionId) => {
     dispatch(
       productsActions.sortProductsBy({ selectedSortingOption: optionId })
     );
   };
 
+  /**
+   * this handler function is responsible for changing checkbox states
+   * for Brands filtering of products.
+   * There will be 2 distinct cases to be applied while updating checkbox states.
+   * ----------------------------------------------------------------------------
+   * The first one is that if "Brands - All" checkbox is currently deselected and
+   * it is desired to be checked, then all checkbox states apart from "Brands - All"
+   * checkbox should be updated to be false.
+   * ----------------------------------------------------------------------------
+   * The second one is that if "Brands - All" checkbox is currently selected and
+   * another checkbox is desired to be checked, "Brands - All" checkbox should be
+   * updated to be false.
+   */
   const toggleBrandsFilteringCheckboxStatesHandler = (brand) => {
     setBrandsCheckboxStates((prevState) => {
       if (brand === "Brands - All" && !prevState["Brands - All"]) {
@@ -73,6 +94,19 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     });
   };
 
+  /**
+   * this handler function is responsible for changing checkbox states
+   * for Tags filtering of products.
+   * There will be 2 distinct cases to be applied while updating checkbox states.
+   * ----------------------------------------------------------------------------
+   * The first one is that if "Tags - All" checkbox is currently deselected and
+   * it is desired to be checked, then all checkbox states apart from "Tags - All"
+   * checkbox should be updated to be false.
+   * ----------------------------------------------------------------------------
+   * The second one is that if "Tags - All" checkbox is currently selected and
+   * another checkbox is desired to be checked, "Tags - All" checkbox should be
+   * updated to be false.
+   */
   const toggleTagsFilteringCheckboxStatesHandler = (tag) => {
     setTagsCheckboxStates((prevState) => {
       if (tag === "Tags - All" && !prevState["Tags - All"]) {
@@ -93,13 +127,25 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     });
   };
 
-  const toggleSortingBoxDisplayForMobileHandler = () =>
-    setIsSortingBoxDisplayedForMobile((prevState) => !prevState);
-  const toggleBrandsFilteringBoxDisplayForMobileHandler = () =>
-    setIsBrandsFilteringBoxDisplayedForMobile((prevState) => !prevState);
-  const toggleTagsFilteringBoxDisplayForMobileHandler = () =>
-    setIsTagsFilteringBoxDisplayedForMobile((prevState) => !prevState);
+  // this handler function is responsible for toggling display status of "sorting" modal for small screen size devices
+  const toggleSortingBoxDisplayHandler = () =>
+    setIsSortingBoxDisplayed((prevState) => !prevState);
 
+  // this handler function is responsible for toggling display status of "brands filtering" modal for small screen size devices
+  const toggleBrandsFilteringBoxDisplayHandler = () =>
+    setIsBrandsFilteringBoxDisplayed((prevState) => !prevState);
+
+  // this handler function is responsible for toggling display status of "tags filtering" modal for small screen size devices
+  const toggleTagsFilteringBoxDisplayHandler = () =>
+    setIsTagsFilteringBoxDisplayed((prevState) => !prevState);
+
+  /**
+   * this effect hook is responsible for setting all brands filtering checkbox states
+   * to false except for "Brands - All" checkbox state for the 1st render. Checking
+   * "Brands - All" checkbox state to true is required so that at the initial display
+   * of the screen, the user should know that there is no filtering applied based on
+   * Brands all available products are displayed.
+   */
   useEffect(() => {
     setBrandsCheckboxStates(() => {
       return Object.keys(manufacturers).reduce(
@@ -112,6 +158,13 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     });
   }, [manufacturers]);
 
+  /**
+   * this effect hook is responsible for setting all tags filtering checkbox states
+   * to false except for "Tags - All" checkbox state for the 1st render. Checking
+   * "Tags - All" checkbox state to true is required so that at the initial display
+   * of the screen, the user should know that there is no filtering applied based on
+   * Tags all available products are displayed.
+   */
   useEffect(() => {
     setTagsCheckboxStates(() => {
       return Object.keys(tags).reduce(
@@ -124,6 +177,12 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     });
   }, [tags]);
 
+  /**
+   * this hook is responsible for triggering product filtering action
+   * whenever "brandsCheckboxStates" and/or "tagsCheckboxStates" objects
+   * are updated. Note that "brandsCheckboxStates" and "tagsCheckboxStates"
+   * objects hold all the current checkbox states for Brands and Tags filtering
+   */
   useEffect(() => {
     dispatch(
       productsActions.filterProductsBy({
@@ -202,16 +261,19 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
   return (
     <section className={classes.LeftSection}>
+      {/*******************************************************
+       * Displayed only for devices with screen sizes < 1200px
+       ********************************************************/}
       <div className={classes.ActionButtonsGroup}>
-        <FlatButton onPressed={toggleSortingBoxDisplayForMobileHandler}>
+        <FlatButton onPressed={toggleSortingBoxDisplayHandler}>
           <i className="fas fa-filter" />
           <span>Sorting</span>
         </FlatButton>
-        <FlatButton onPressed={toggleBrandsFilteringBoxDisplayForMobileHandler}>
+        <FlatButton onPressed={toggleBrandsFilteringBoxDisplayHandler}>
           <i className="fas fa-sort" />
           <span>Filtering (Brands)</span>
         </FlatButton>
-        <FlatButton onPressed={toggleTagsFilteringBoxDisplayForMobileHandler}>
+        <FlatButton onPressed={toggleTagsFilteringBoxDisplayHandler}>
           <i className="fas fa-sort" />
           <span>Filtering (Tags)</span>
         </FlatButton>
@@ -219,11 +281,11 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
       {width < 1200 ? (
         <Modal
-          isModalOpen={isSortingBoxDisplayedForMobile}
-          onDismissModal={toggleSortingBoxDisplayForMobileHandler}
+          isModalOpen={isSortingBoxDisplayed}
+          onDismissModal={toggleSortingBoxDisplayHandler}
         >
           {sortingBoxContent}
-          <FlatButton onPressed={toggleSortingBoxDisplayForMobileHandler}>
+          <FlatButton onPressed={toggleSortingBoxDisplayHandler}>
             <i className="fas fa-times" />
             <span style={{ marginLeft: ".25rem" }}>Close</span>
           </FlatButton>
@@ -234,13 +296,11 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
       {width < 1200 ? (
         <Modal
-          isModalOpen={isBrandsFilteringBoxDisplayedForMobile}
-          onDismissModal={toggleBrandsFilteringBoxDisplayForMobileHandler}
+          isModalOpen={isBrandsFilteringBoxDisplayed}
+          onDismissModal={toggleBrandsFilteringBoxDisplayHandler}
         >
           {brandsFilteringBoxContent}
-          <FlatButton
-            onPressed={toggleBrandsFilteringBoxDisplayForMobileHandler}
-          >
+          <FlatButton onPressed={toggleBrandsFilteringBoxDisplayHandler}>
             <i className="fas fa-times" />
             <span style={{ marginLeft: ".25rem" }}>Close</span>
           </FlatButton>
@@ -251,11 +311,11 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
       {width < 1200 ? (
         <Modal
-          isModalOpen={isTagsFilteringBoxDisplayedForMobile}
-          onDismissModal={toggleTagsFilteringBoxDisplayForMobileHandler}
+          isModalOpen={isTagsFilteringBoxDisplayed}
+          onDismissModal={toggleTagsFilteringBoxDisplayHandler}
         >
           {tagsFilteringBoxContent}
-          <FlatButton onPressed={toggleTagsFilteringBoxDisplayForMobileHandler}>
+          <FlatButton onPressed={toggleTagsFilteringBoxDisplayHandler}>
             <i className="fas fa-times" />
             <span style={{ marginLeft: ".25rem" }}>Close</span>
           </FlatButton>
