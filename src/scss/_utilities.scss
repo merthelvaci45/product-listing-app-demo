@@ -1,5 +1,20 @@
 @import "./variables";
 
+// ============== styles which will be added to lazily loaded images ==============
+// 1. unless an image is loaded, it will take the class "lazyload"
+// 2. during initialization of lazy loading, it will take the class "lazyloading"
+// 3. after image loading is performed, it will take the class "lazyloaded"
+
+/* fade image in after load */
+.lazyload,
+.lazyloading {
+  opacity: 0;
+}
+.lazyloaded {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
 $steps: (
   10: 10%,
   20: 20%,
