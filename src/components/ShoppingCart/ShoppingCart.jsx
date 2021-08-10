@@ -1,14 +1,12 @@
 import { useSelector } from "react-redux";
 import classes from "./ShoppingCart.module.scss";
 
-import ProductInBasket from "../ProductInBasket";
+import ProductInShoppingCart from "../ProductInShoppingCart";
 import Text from "../Text";
 
 const ShoppingCart = () => {
-  const cart = useSelector((state) => state.cartSlice.cart);
-  const totalPrice = useSelector((state) => state.cartSlice.totalPrice);
+  const { cart, totalPrice } = useSelector((state) => state.cartSlice); // extract "cart" and "totalPrice" states from "cartSlice" slice of redux store
 
-  // TODO: add a condition for when cart.length = 0. display an informative text to user that s/he has no item(s) in basket
   return (
     <section className={classes.RightSection}>
       <div className={classes.ShoppingCart}>
@@ -16,7 +14,7 @@ const ShoppingCart = () => {
           <span>No products available</span>
         ) : (
           cart.map((product) => (
-            <ProductInBasket
+            <ProductInShoppingCart
               key={product.id}
               id={product.id}
               name={product.name}
