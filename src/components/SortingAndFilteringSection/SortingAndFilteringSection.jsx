@@ -6,9 +6,12 @@ import classes from "./SortingAndFilteringSection.module.scss";
 
 import Checkbox from "../Checkbox";
 import FeatureCardWithTitle from "../FeatureCardWithTitle";
+import FlatButton from "../FlatButton";
 import Input from "../Input";
+import Modal from "../Modal";
 import RadioButton from "../RadioButton";
 
+import { useWindowDimensions } from "../../hooks";
 import { productsActions } from "../../store/slices";
 import { SORT_OPTIONS } from "../../utils";
 
@@ -17,6 +20,20 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
   const [tagFilteringText, setTagFilteringText] = useState("");
   const [brandsCheckboxStates, setBrandsCheckboxStates] = useState({});
   const [tagsCheckboxStates, setTagsCheckboxStates] = useState({});
+
+  const [isSortingBoxDisplayedForMobile, setIsSortingBoxDisplayedForMobile] =
+    useState(false);
+  const [
+    isBrandsFilteringBoxDisplayedForMobile,
+    setIsBrandsFilteringBoxDisplayedForMobile,
+  ] = useState(false);
+  const [
+    isTagsFilteringBoxDisplayedForMobile,
+    setIsTagsFilteringBoxDisplayedForMobile,
+  ] = useState(false);
+
+  const { width } = useWindowDimensions();
+
   const dispatch = useDispatch();
   const sortingOptions = useSelector(
     (state) => state.productsSlice.sortingOptions
@@ -74,6 +91,13 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     });
   };
 
+  const toggleSortingBoxDisplayForMobileHandler = () =>
+    setIsSortingBoxDisplayedForMobile((prevState) => !prevState);
+  const toggleBrandsFilteringBoxDisplayForMobileHandler = () =>
+    setIsBrandsFilteringBoxDisplayedForMobile((prevState) => !prevState);
+  const toggleTagsFilteringBoxDisplayForMobileHandler = () =>
+    setIsTagsFilteringBoxDisplayedForMobile((prevState) => !prevState);
+
   useEffect(() => {
     setBrandsCheckboxStates(() => {
       return Object.keys(manufacturers).reduce(
@@ -107,71 +131,136 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     );
   }, [brandsCheckboxStates, dispatch, tagsCheckboxStates]);
 
-  return (
-    <section className={classes.LeftSection}>
-      <FeatureCardWithTitle isFixedHeight title="Sorting">
-        {SORT_OPTIONS.map((option) => (
-          <RadioButton
-            key={option.id}
-            id={option.id}
-            isChecked={sortingOptions[option.id]}
-            label={option.label}
-            onChanged={sortProductsByOptionHandler.bind(this, option.id)}
+  const sortingBoxContent = (
+    <FeatureCardWithTitle isFixedHeight title="Sorting">
+      {SORT_OPTIONS.map((option) => (
+        <RadioButton
+          key={option.id}
+          id={option.id}
+          isChecked={sortingOptions[option.id]}
+          label={option.label}
+          onChanged={sortProductsByOptionHandler.bind(this, option.id)}
+        />
+      ))}
+    </FeatureCardWithTitle>
+  );
+
+  const brandsFilteringBoxContent = (
+    <FeatureCardWithTitle title="Brands">
+      <Input
+        id="brand"
+        onChanged={setFilteringTextHandler}
+        placeholder="Search brand"
+        value={brandFilteringText}
+      />
+      {Object.keys(manufacturers)
+        .filter((manufacturer) =>
+          manufacturer.toLowerCase().includes(brandFilteringText.toLowerCase())
+        )
+        .map((manufacturer) => (
+          <Checkbox
+            key={manufacturer}
+            id={manufacturer}
+            isChecked={brandsCheckboxStates[manufacturer]}
+            label={manufacturer}
+            quantity={manufacturers[manufacturer]}
+            onChanged={toggleBrandsFilteringCheckboxStatesHandler.bind(
+              this,
+              manufacturer
+            )}
           />
         ))}
-      </FeatureCardWithTitle>
-      <FeatureCardWithTitle title="Brands">
-        <Input
-          id="brand"
-          onChanged={setFilteringTextHandler}
-          placeholder="Search brand"
-          value={brandFilteringText}
-        />
-        {Object.keys(manufacturers)
-          .filter((manufacturer) =>
-            manufacturer
-              .toLowerCase()
-              .includes(brandFilteringText.toLowerCase())
-          )
-          .map((manufacturer) => (
-            <Checkbox
-              key={manufacturer}
-              id={manufacturer}
-              isChecked={brandsCheckboxStates[manufacturer]}
-              label={manufacturer}
-              quantity={manufacturers[manufacturer]}
-              onChanged={toggleBrandsFilteringCheckboxStatesHandler.bind(
-                this,
-                manufacturer
-              )}
-            />
-          ))}
-      </FeatureCardWithTitle>
-      <FeatureCardWithTitle title="Tags">
-        <Input
-          id="tag"
-          onChanged={setFilteringTextHandler}
-          placeholder="Search tag"
-          value={tagFilteringText}
-        />
-        {Object.keys(tags)
-          .filter((tag) =>
-            tag.toLowerCase().includes(tagFilteringText.toLowerCase())
-          )
-          .map((tag) => (
-            <Checkbox
-              key={tag}
-              id={tag}
-              isChecked={tagsCheckboxStates[tag]}
-              label={tag}
-              quantity={tags[tag]}
-              onChanged={toggleTagsFilteringCheckboxStatesHandler.bind(
-                this,
-                tag
-              )}
-            />
-          ))}
-      </FeatureCardWithTitle>
+    </FeatureCardWithTitle>
+  );
+
+  const tagsFilteringBoxContent = (
+    <FeatureCardWithTitle title="Tags">
+      <Input
+        id="tag"
+        onChanged={setFilteringTextHandler}
+        placeholder="Search tag"
+        value={tagFilteringText}
+      />
+      {Object.keys(tags)
+        .filter((tag) =>
+          tag.toLowerCase().includes(tagFilteringText.toLowerCase())
+        )
+        .map((tag) => (
+          <Checkbox
+            key={tag}
+            id={tag}
+            isChecked={tagsCheckboxStates[tag]}
+            label={tag}
+            quantity={tags[tag]}
+            onChanged={toggleTagsFilteringCheckboxStatesHandler.bind(this, tag)}
+          />
+        ))}
+    </FeatureCardWithTitle>
+  );
+
+  return (
+    <section className={classes.LeftSection}>
+      <div className={classes.ActionButtonsGroup}>
+        <FlatButton onPressed={toggleSortingBoxDisplayForMobileHandler}>
+          <i className="fas fa-filter" />
+          <span>Sorting</span>
+        </FlatButton>
+        <FlatButton onPressed={toggleBrandsFilteringBoxDisplayForMobileHandler}>
+          <i className="fas fa-sort" />
+          <span>Filtering (Brands)</span>
+        </FlatButton>
+        <FlatButton onPressed={toggleTagsFilteringBoxDisplayForMobileHandler}>
+          <i className="fas fa-sort" />
+          <span>Filtering (Tags)</span>
+        </FlatButton>
+      </div>
+
+      {width < 1200 ? (
+        <Modal
+          isModalOpen={isSortingBoxDisplayedForMobile}
+          onDismissModal={toggleSortingBoxDisplayForMobileHandler}
+        >
+          {sortingBoxContent}
+          <FlatButton onPressed={toggleSortingBoxDisplayForMobileHandler}>
+            <i className="fas fa-times" />
+            <span style={{ marginLeft: ".25rem" }}>Close</span>
+          </FlatButton>
+        </Modal>
+      ) : (
+        sortingBoxContent
+      )}
+
+      {width < 1200 ? (
+        <Modal
+          isModalOpen={isBrandsFilteringBoxDisplayedForMobile}
+          onDismissModal={toggleBrandsFilteringBoxDisplayForMobileHandler}
+        >
+          {brandsFilteringBoxContent}
+          <FlatButton
+            onPressed={toggleBrandsFilteringBoxDisplayForMobileHandler}
+          >
+            <i className="fas fa-times" />
+            <span style={{ marginLeft: ".25rem" }}>Close</span>
+          </FlatButton>
+        </Modal>
+      ) : (
+        brandsFilteringBoxContent
+      )}
+
+      {width < 1200 ? (
+        <Modal
+          isModalOpen={isTagsFilteringBoxDisplayedForMobile}
+          onDismissModal={toggleTagsFilteringBoxDisplayForMobileHandler}
+        >
+          {tagsFilteringBoxContent}
+          <FlatButton onPressed={toggleTagsFilteringBoxDisplayForMobileHandler}>
+            <i className="fas fa-times" />
+            <span style={{ marginLeft: ".25rem" }}>Close</span>
+          </FlatButton>
+        </Modal>
+      ) : (
+        tagsFilteringBoxContent
+      )}
     </section>
   );
 };
