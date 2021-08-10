@@ -41,20 +41,16 @@ const AllProducts = () => {
     queryPath: ITEMS_API_BASE_URL,
   }); // invoke hook to fetch "items" data from dummy backend API
 
-  const manufacturersForMugType = useManufacturerCountForItemType(
-    itemsData,
-    "mug"
-  );
-  const manufacturersForShirtType = useManufacturerCountForItemType(
-    itemsData,
-    "shirt"
-  );
+  const [manufacturersForMugType, manufacturersForShirtType] =
+    useManufacturerCountForItemType(itemsData);
 
-  const tagsForMugType = useTagCountForItemType(itemsData, "mug");
-  const tagsForShirtType = useTagCountForItemType(itemsData, "shirt");
+  const [tagsForMugType, tagsForShirtType] = useTagCountForItemType(itemsData);
 
+  // the following 2 variables are passed to "SearchingAndFilteringSection" component as props
+  // and they are responsible for populating "Brands" and "Tags" filtering box contents, respectively.
   const manufacturers =
     itemType === "mug" ? manufacturersForMugType : manufacturersForShirtType;
+
   const tags = itemType === "mug" ? tagsForMugType : tagsForShirtType;
 
   // this handler function is responsible for setting "itemType" state based on selected "product" type at the top
