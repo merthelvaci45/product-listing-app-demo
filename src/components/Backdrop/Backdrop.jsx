@@ -8,7 +8,12 @@ import classes from "./Backdrop.module.scss";
 const Backdrop = ({ isBackdropActivated, onDismiss }) => {
   return (
     isBackdropActivated && (
-      <button className={classes.Backdrop} onClick={onDismiss}></button>
+      <button
+        type="button"
+        role="presentation"
+        className={classes.Backdrop}
+        onClick={onDismiss}
+      ></button>
     )
   );
 };
