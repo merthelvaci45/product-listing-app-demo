@@ -1,7 +1,7 @@
 @import "../../scss/mixins";
 @import "../../scss/variables";
 
-.ProductInBasket {
+.ProductInShoppingCart {
   @include display_flex(row, space-between, center);
   margin-bottom: 1rem;
   padding-bottom: 1rem;
