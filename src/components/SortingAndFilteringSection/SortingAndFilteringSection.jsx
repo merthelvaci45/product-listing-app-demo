@@ -156,7 +156,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
         {}
       );
     });
-  }, [manufacturers]);
+  }, [manufacturers.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * this effect hook is responsible for setting all tags filtering checkbox states
@@ -175,7 +175,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
         {}
       );
     });
-  }, [tags]);
+  }, [tags.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * this hook is responsible for triggering product filtering action
@@ -191,6 +191,16 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
       })
     );
   }, [brandsCheckboxStates, dispatch, tagsCheckboxStates]);
+
+  /**
+   * this effect hook is responsible for performing sort operation on
+   * currently available products after each time filtering is applied
+   */
+  /* useEffect(() => {
+    dispatch(
+      productsActions.sortProductsBy({ selectedSortingOption: sortedBy })
+    );
+  }, [brandsCheckboxStates, dispatch, tagsCheckboxStates, sortedBy]); */
 
   const sortingBoxContent = (
     <FeatureCardWithTitle isFixedHeight title="Sorting">
