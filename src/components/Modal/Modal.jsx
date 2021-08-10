@@ -4,9 +4,17 @@ import classes from "./Modal.module.scss";
 
 import Backdrop from "../Backdrop";
 
+/**
+ * this component is opened on top of all screen components with the content provided as "children" prop
+ * when triggered. it is also dismissable upon when <Backdrop> component, which resides behind this component,
+ * is pressed.
+ * @param {Node} children: JSX node to be rendered as the content of this component
+ * @param {boolean} isModalOpen: prop to keep track of whether this component is opened or not
+ * @param {Function} onDismissModal: prop to dismiss the component whenever it was activated before.
+ */
 const Modal = ({ children, isModalOpen, onDismissModal }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div className={classes.Wrapper}>
       <Backdrop isBackdropActivated={isModalOpen} onDismiss={onDismissModal} />
       <div
         aria-label="Pop-up modal"

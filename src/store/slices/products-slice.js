@@ -5,7 +5,7 @@ import { initialSortingRadioButtonsState, SORT_OPTIONS_IDS } from "../../utils";
 const initialState = {
   products: [],
   filteredProducts: [],
-  productsInPage: [],
+  productsInPage: [], // state to hold products which are displayed only for current page
   mugTypeProducts: [],
   shirtTypeProducts: [],
   sortingOptions: initialSortingRadioButtonsState,

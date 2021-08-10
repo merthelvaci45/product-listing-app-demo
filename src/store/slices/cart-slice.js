@@ -13,6 +13,7 @@ const cartSlice = createSlice({
        * The first one is that a product is being added to "cart" for the 1st time.
        * In this case, create a new object with "id", "name", "price" and "quantity" properties
        * and add it to "cart" array.
+       * --------------------------------------------------------------------------------------------
        * The second one is that a product has already been added to "cart" before.
        * In this case, just increase the quantity of that product by 1.
        * In both cases, "totalPrice" property of "state" object must be definitely updated!
@@ -46,10 +47,11 @@ const cartSlice = createSlice({
        * The first one is that the number of current quantity of
        * the product is greater than 1. In this case, just decrease
        * the quantity of that product by 1 and update the UI accordingly.
+       * ------------------------------------------------------------------------------
        * The second one is that the number of current quantity of the
        * product is exactly equal to 1. In this case, beside decreasing
        * the quantity by 1, the product name (and price) should also be
-       * removed from the basket completely and UI update should occur accordingly.
+       * removed from the cart completely and UI update should occur accordingly.
        * In both cases, "totalPrice" property of "state" object must be definitely updated!
        */
       if (state.cart.length === 0) return; // if there is no item in "cart", immediately return and do nothing

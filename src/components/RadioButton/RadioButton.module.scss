@@ -31,25 +31,27 @@
   border: 2px solid #dfdee2;
 }
 
-/* When the radio button is checked, add a blue background */
+/* When the radio button is checked, add a transparent background 
+ * and border of width 2px with #1ea4ce color 
+ */
 .Label input:checked ~ .Checkmark {
   background-color: transparent;
   border: 2px solid $primary;
 }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
+/* Create the checkmark (- hidden when not checked) */
 .Checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the indicator (dot/circle) when checked */
+/* Show the checkmark when checked */
 .Label input:checked ~ .Checkmark:after {
   display: block;
 }
 
-/* Style the indicator (dot/circle) */
+/* Style the checkmark */
 .Label .Checkmark:after {
   top: 1.5px;
   left: 6px;

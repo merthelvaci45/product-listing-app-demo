@@ -4,6 +4,16 @@ import classes from "./Checkbox.module.scss";
 
 import Text from "../Text";
 
+/**
+ * this component extends from native browser checkbox input element
+ * with a customized style based on the specified UI in Figma design.
+ * @param {boolean} isChecked: prop to hold whether checkbox is checked
+ * @param {String} id: prop to associate <label> with respective <input /> element
+ * @param {String} label: prop to display checkbox label text
+ * @param {Function} onChanged: prop to toggle checked status of checkbox
+ * @param {Number} quantity: prop to display the quantity of each checkbox item
+ *  within parantheses in "Tags" and "Brands" filtering options
+ */
 const Checkbox = ({ isChecked, id, label, onChanged, quantity }) => {
   return (
     <>

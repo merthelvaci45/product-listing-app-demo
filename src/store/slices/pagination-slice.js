@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  pageNumber: 1,
-  pageNumbers: [],
-  totalNumberOfPages: 0,
+  pageNumber: 1, // state to keep track of the number of currently displayed products page
+  pageNumbers: [], // state to hold page numbers which are displayed in Pagination section
+  totalNumberOfPages: 0, // state to hold how many pages will be for each product (and in case any filtering is applied)
 };
 
 const paginationSlice = createSlice({
@@ -31,8 +31,8 @@ const paginationSlice = createSlice({
         ];
       } else {
         // if filtering of products is in action though, state.pageNumbers = [1, 2, ..., state.totalNumberOfPages]
-        // only if current "state.totalNumberOfPages" is less than 8 so that above assignment cannot be held.
-        // so, update "state.pageNumbers" as required.
+        // only if current "state.totalNumberOfPages" is less than 8 so that above assignment in if statement cannot
+        // be held. so, update "state.pageNumbers" as required.
         state.pageNumbers = [
           ...Array.from({ length: state.totalNumberOfPages }, (_, i) => i + 1),
         ];
@@ -53,9 +53,9 @@ const paginationSlice = createSlice({
        * should be incremented properly.
        * -----------------------------------------------------------------------------------------------------
        * The second case is that currently active page number DOES reach to the end of pagination, i.e, it is
-       * now equal to (totalNumberOfPages - 4), where 4 represents total number of pages displayed at the end
-       * after "..." character. In this case, "..." character should be removed from the pagination and 8
-       * consequtive page numbers should be displayed. The number at the farthest right is the last page number,
+       * now greater than or equal to (totalNumberOfPages - 4), where 4 represents total number of pages displayed
+       * at the end after "..." character. In this case, "..." character should be removed from the pagination and
+       * 8 consequtive page numbers should be displayed. The number at the farthest right is the last page number,
        * and the number at the farthest left should be (lastPageNumber - 7).
        */
       if (state.pageNumber > 4) {
@@ -102,7 +102,7 @@ const paginationSlice = createSlice({
        * --------------------------------------------------------------------------------------------
        * The first one is that decrementing occurs for the page number less than 5. In this case,
        * no matter what the current page number is, the first 4 page numbers at the left of pagination
-       * should be 1, 2, 3 and 4 in given order. The last 4 page numbers should be as expected.
+       * should be 1, 2, 3 and 4 in given order. The last 4 page numbers at the right should be as expected.
        * --------------------------------------------------------------------------------------------
        * The second one is that decrementing occurs for the page number greater than or equal to 5.
        * In this case, two distinct sub-cases should be checked as well. The first sub-case is that

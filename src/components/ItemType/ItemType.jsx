@@ -5,6 +5,14 @@ import classes from "./ItemType.module.scss";
 import Button from "../Button";
 import Text from "../Text";
 
+/**
+ * this component consitutes each pressable item type for displaying a collection of products
+ * belonging to a specific "itemType". they are displayed at top of listed products and under
+ * "Products" title.
+ * @param {boolean} isSelected: prop to keep track of "selected" value of the component. depending on its value, a specific classname will be attached
+ * @param {Function} onClicked: prop to determine what happens when the component is pressed upon
+ * @param {String} itemType: prop to render name of the component
+ */
 const ItemType = ({ isSelected, onClicked, itemType }) => {
   return (
     <Button

@@ -7,6 +7,14 @@ import classes from "./Image.module.scss";
 
 lazySizes.loadMode = 1;
 
+/**
+ * this component renders an image with "lazyloading" feature provided by "lazysizes" package.
+ * @param {String} imgAltText: alt text for <img> element for providing access for screen readers
+ * @param {String} imgFallbackSrc: source path for an image with extension other than WebP
+ * @param {String} imgWebpSrc: source path for an image with extension WebP
+ * @param {boolean} isSvg: bool prop to check if an image is in svg format or not. if true, it means
+ * that it will have no corresponding image with WebP format as svg images cannot be converted to WebP
+ */
 const Image = ({ imgAltText, imgFallbackSrc, imgWebpSrc, isSvg }) => {
   return (
     <figure className={classes.Figure}>

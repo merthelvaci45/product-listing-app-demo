@@ -12,7 +12,7 @@ const getWindowDimensions = () => {
 };
 
 /**
- * this custom hook is used to obtain current window width of browser when needed
+ * this custom hook is used to obtain current window width of browser dynamically within any component
  */
 const useWindowDimensions = () => {
   const [windowDimensions, setWindowDimensions] = useState(

@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { findNumberOfOccurencesOfItemsInArray } from "../utils";
 
 /**
- * itemType = "mug" || "shirt"
+ * this hook is responsible for extracting an object, whose keys are made out of each manufacturer name
+ * and corresponding values are the count of how many products each manufacturer has for "itemType" argument.
+ * @param {Array} items: array of all products/items to be filtered out
+ * @param {String} itemType: "mug" || "shirt"
  */
 const useManufacturerCountForItemType = (items = [], itemType = "") => {
   const [manufacturerCountForItemType, setManufacturerCountForItemType] =

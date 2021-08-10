@@ -8,8 +8,9 @@ import Header from "../Header";
 /**
  * this component is a wrapper for any page component
  * and it defines the general layout for each page.
- * namely, it adds a Header, Backdrop and MobileDrawerMenu
- * to each page by default
+ * namely, it adds a <Header> and <Footer> components
+ * to each page by default.
+ * @param {Node} children: JSX node element to be rendered
  */
 const Layout = ({ children }) => {
   return (

@@ -5,9 +5,9 @@ import classes from "./AllProducts.module.scss";
 
 import ItemType from "../../components/ItemType";
 import Layout from "../../components/Layout";
-import ShoppingCart from "../../components/ShoppingCart";
 import Pagination from "../../components/Pagination";
 import ProductCard from "../../components/ProductCard";
+import ShoppingCart from "../../components/ShoppingCart";
 import SortingAndFilteringSection from "../../components/SortingAndFilteringSection";
 import Spinner from "../../components/Spinner";
 import Title from "../../components/Title";
