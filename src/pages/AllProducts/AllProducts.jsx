@@ -23,9 +23,13 @@ import { ITEMS_API_BASE_URL } from "../../utils";
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug");
   const dispatch = useDispatch();
-  const { products, productsInPage } = useSelector(
-    (state) => state.productsSlice
-  );
+  const {
+    filteredProducts,
+    isBrandFilteringApplied,
+    isTagFilteringApplied,
+    products,
+    productsInPage,
+  } = useSelector((state) => state.productsSlice);
   const pageNumber = useSelector((state) => state.paginationSlice.pageNumber);
 
   const [itemsData, isItemsDataLoading] = useAPI({
@@ -54,11 +58,19 @@ const AllProducts = () => {
     if (itemsData !== undefined && itemsData.length > 0) {
       dispatch(productsActions.fetchProducts({ products: itemsData }));
     }
-  }, [itemsData, dispatch]);
+  }, [itemsData, dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     dispatch(productsActions.fetchProductsForPage({ pageNumber, itemType }));
-  }, [dispatch, itemType, pageNumber, products]);
+  }, [
+    dispatch,
+    filteredProducts,
+    isBrandFilteringApplied,
+    isTagFilteringApplied,
+    itemType,
+    pageNumber,
+    products,
+  ]);
 
   return isItemsDataLoading ? (
     <Spinner />
@@ -81,18 +93,36 @@ const AllProducts = () => {
             />
           </div>
           <div className={classes.ProductsList}>
-            {productsInPage?.map((product) => (
-              <ProductCard
-                key={product.slug}
-                id={product.slug}
-                price={product.price}
-                productName={product.name}
+            {productsInPage.length === 0 ? (
+              <span>
+                No available product found. Please try to remove some filtering
+                options
+              </span>
+            ) : (
+              productsInPage?.map((product) => (
+                <ProductCard
+                  key={product.slug}
+                  id={product.slug}
+                  price={product.price}
+                  productName={product.name}
+                />
+              ))
+            )}
+          </div>
+          {(!isBrandFilteringApplied ||
+            !isTagFilteringApplied ||
+            (filteredProducts.length > 0 &&
+              (isBrandFilteringApplied || isTagFilteringApplied))) && (
+            <div className={classes.Pagination}>
+              <Pagination
+                totalNumberOfPages={Math.ceil(
+                  isBrandFilteringApplied || isTagFilteringApplied
+                    ? filteredProducts?.length / 32
+                    : products?.length / 32
+                )}
               />
-            ))}
-          </div>
-          <div className={classes.Pagination}>
-            <Pagination totalNumberOfPages={Math.ceil(products?.length / 32)} />
-          </div>
+            </div>
+          )}
         </section>
         <Basket />
       </div>
