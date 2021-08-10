@@ -7,6 +7,7 @@ import Button from "../Button";
 import Image from "../Image";
 import Text from "../Text";
 
+import { dummyProductImage } from "./util";
 import { cartActions } from "../../store/slices";
 
 const ProductCard = ({ id, price, productName }) => {
@@ -18,7 +19,11 @@ const ProductCard = ({ id, price, productName }) => {
 
   return (
     <div className={classes.ProductCard}>
-      <Image imgFallbackSrc="" imgAltText="" />
+      <Image
+        imgFallbackSrc={dummyProductImage.source.fallback}
+        imgWebpSrc={dummyProductImage.source.webp}
+        imgAltText={dummyProductImage.altText}
+      />
       <Text
         color="Primary"
         fontWeight="FontWeight700"
