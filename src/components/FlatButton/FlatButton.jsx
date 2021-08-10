@@ -16,6 +16,7 @@ const FlatButton = ({
       } ${isBorderedStyle ? classes.Bordered : ""}`}
       id={id}
       onClick={onPressed}
+      type="button"
     >
       {children}
     </button>
