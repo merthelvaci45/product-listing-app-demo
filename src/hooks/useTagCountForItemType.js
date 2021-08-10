@@ -27,7 +27,8 @@ const useTagCountForItemType = (items = [], itemType = "") => {
       // for this purpose, use "findNumberOfOccurencesOfItemsInArray" utility function
       // defined in "../utils/findNumberOfOccurencesOfItemsInArray.js" file
       setTagCountForItemType(() => ({
-        All: items.length,
+        //All: items.length,
+        "Tags - All": items.length,
         ...findNumberOfOccurencesOfItemsInArray(availableTagsForItemType),
       }));
     }
