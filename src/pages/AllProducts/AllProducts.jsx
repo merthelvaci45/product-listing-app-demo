@@ -24,6 +24,7 @@ import { productsActions } from "../../store/slices";
 import { ITEMS_API_BASE_URL } from "../../utils";
 
 const AllProducts = () => {
+  const [isProductsUpdated, setIsProductsUpdated] = useState(false); // state to control whether "products" state is updated with API data
   const [itemType, setItemType] = useState("mug"); // state to keep track of products beloging to which itemType is listed
   const dispatch = useDispatch();
   const {
@@ -42,9 +43,17 @@ const AllProducts = () => {
   }); // invoke hook to fetch "items" data from dummy backend API
 
   const [manufacturersForMugType, manufacturersForShirtType] =
-    useManufacturerCountForItemType(itemsData);
+    useManufacturerCountForItemType(
+      isBrandFilteringApplied || isTagFilteringApplied
+        ? filteredProducts
+        : products
+    );
 
-  const [tagsForMugType, tagsForShirtType] = useTagCountForItemType(itemsData);
+  const [tagsForMugType, tagsForShirtType] = useTagCountForItemType(
+    isBrandFilteringApplied || isTagFilteringApplied
+      ? filteredProducts
+      : products
+  );
 
   // the following 2 variables are passed to "SearchingAndFilteringSection" component as props
   // and they are responsible for populating "Brands" and "Tags" filtering box contents, respectively.
@@ -62,10 +71,10 @@ const AllProducts = () => {
    */
   useEffect(() => {
     // dispatch this action only if data fetching did NOT occur before
-    if (itemsData !== undefined && itemsData.length > 0) {
+    if (itemsData?.length > 0) {
       dispatch(productsActions.fetchProducts({ products: itemsData }));
     }
-  }, [itemsData, dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [itemsData?.length, dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * this hook is responsible for fetching products of specific "itemType" displayed only for the current page.
@@ -84,47 +93,61 @@ const AllProducts = () => {
     products,
   ]);
 
-  if (isItemsDataLoading) return <Spinner />; // while data fetching is in progress, display a loading Spinner
+  /**
+   * this hook is responsible for setting "isProductsUpdated" state to true
+   * only if "products" state is updated and populated with "itemsData", which
+   * is the data fetched from backend
+   */
+  useEffect(() => {
+    if (products.length > 0) {
+      setIsProductsUpdated(true);
+    }
+  }, [products.length]);
+
+  if (isItemsDataLoading || products.length === 0) {
+    // while data fetching is in progress or "products" state is not updated with "itemsData" yet, display a loading Spinner
+    return <Spinner />;
+  }
 
   return (
-    <Layout>
-      <div className={classes.AllProducts}>
-        <SortingAndFilteringSection manufacturers={manufacturers} tags={tags} />
-        <section>
-          <Title title="Products" />
-          <div className={classes.ItemTypes}>
-            <ItemType
-              isSelected={itemType === "mug"}
-              itemType="mug"
-              onClicked={setItemTypeHandler.bind(this, "mug")}
-            />
-            <ItemType
-              isSelected={itemType === "shirt"}
-              itemType="shirt"
-              onClicked={setItemTypeHandler.bind(this, "shirt")}
-            />
-          </div>
-          <div className={classes.ProductsList}>
-            {productsInPage.length === 0 ? (
-              <span>
-                No available product found. Please try to remove some filtering
-                options
-              </span>
-            ) : (
-              productsInPage?.map((product) => (
-                <ProductCard
-                  key={product.slug}
-                  id={product.slug}
-                  price={product.price}
-                  productName={product.name}
-                />
-              ))
-            )}
-          </div>
-          {(!isBrandFilteringApplied ||
-            !isTagFilteringApplied ||
-            (filteredProducts.length > 0 &&
-              (isBrandFilteringApplied || isTagFilteringApplied))) && (
+    isProductsUpdated && (
+      <Layout>
+        <div className={classes.AllProducts}>
+          <SortingAndFilteringSection
+            manufacturers={manufacturers}
+            tags={tags}
+          />
+          <section>
+            <Title title="Products" />
+            <div className={classes.ItemTypes}>
+              <ItemType
+                isSelected={itemType === "mug"}
+                itemType="mug"
+                onClicked={setItemTypeHandler.bind(this, "mug")}
+              />
+              <ItemType
+                isSelected={itemType === "shirt"}
+                itemType="shirt"
+                onClicked={setItemTypeHandler.bind(this, "shirt")}
+              />
+            </div>
+            <div className={classes.ProductsList}>
+              {productsInPage.length === 0 ? (
+                <span>
+                  No available product found. Please try to remove some
+                  filtering options
+                </span>
+              ) : (
+                productsInPage?.map((product) => (
+                  <ProductCard
+                    key={product.slug}
+                    id={product.slug}
+                    price={product.price}
+                    productName={product.name}
+                  />
+                ))
+              )}
+            </div>
             <div className={classes.Pagination}>
               <Pagination
                 totalNumberOfPages={Math.ceil(
@@ -134,11 +157,11 @@ const AllProducts = () => {
                 )}
               />
             </div>
-          )}
-        </section>
-        {width >= 1200 && <ShoppingCart />}
-      </div>
-    </Layout>
+          </section>
+          {width >= 1200 && <ShoppingCart />}
+        </div>
+      </Layout>
+    )
   );
 };
 
