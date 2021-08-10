@@ -15,6 +15,7 @@ const Button = ({
         isBlockButton ? classes.BlockButton : classes.InlineButton
       } ${classes[type]} ${overrideClassName}`}
       onClick={onClicked}
+      type="button"
     >
       {children}
     </button>
