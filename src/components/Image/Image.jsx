@@ -11,7 +11,7 @@ const Image = ({ imgAltText, imgFallbackSrc, imgWebpSrc, isSvg }) => {
   return (
     <figure className={classes.Figure}>
       <img
-        className={classes.Image}
+        className={`${classes.Image} lazyload`}
         data-src={imgFallbackSrc}
         data-srcset={isSvg ? null : imgWebpSrc}
         alt={imgAltText}
