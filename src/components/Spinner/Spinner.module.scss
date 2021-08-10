@@ -1,22 +1,24 @@
 @import "../../scss/mixins";
+@import "../../scss/variables";
 
 .Spinner {
   display: inline-block;
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 100vw;
+  height: 100vh;
+  @include display_flex;
 }
 .Spinner div {
   box-sizing: border-box;
   display: block;
   position: absolute;
-  width: 64px;
-  height: 64px;
+  width: 3.5rem;
+  height: 3.5rem;
   margin: 8px;
-  border: 8px solid #fff;
+  border: 6px solid $primary;
   border-radius: 50%;
   animation: Spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  gray-200: #fff transparent transparent transparent;
+  border-color: $primary transparent transparent transparent;
 }
 .Spinner div:nth-child(1) {
   animation-delay: -0.45s;
