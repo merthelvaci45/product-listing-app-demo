@@ -1,5 +1,14 @@
 @import "../../scss/mixins";
+@import "../../scss/variables";
 
 .ProductCard {
   @include display_flex(column, space-between, flex-start);
+
+  figure {
+    height: 7.75rem;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    border: 1px solid $gray-200;
+    border-radius: 0.75rem;
+  }
 }
