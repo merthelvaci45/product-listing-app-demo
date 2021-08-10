@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 
 import classes from "./Modal.module.scss";
@@ -13,7 +14,8 @@ import { Backdrop } from "..";
  * @param {Function} onDismissModal: prop to dismiss the component whenever it was activated before.
  */
 const Modal = ({ children, isModalOpen, onDismissModal }) => {
-  return (
+  const modalNode = document.querySelector("#modal");
+  const modalContent = (
     <div className={classes.Wrapper}>
       <Backdrop isBackdropActivated={isModalOpen} onDismiss={onDismissModal} />
       <div
@@ -29,6 +31,8 @@ const Modal = ({ children, isModalOpen, onDismissModal }) => {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, modalNode);
 };
 
 Modal.propTypes = {
