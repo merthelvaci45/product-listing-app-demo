@@ -1,0 +1,21 @@
+@import "../../scss/variables";
+
+.Modal {
+  position: fixed;
+  top: 3rem;
+  width: 80%;
+  max-width: 35rem;
+  max-height: 75vh;
+  padding: 1rem;
+  background-color: darken($white, 8%);
+  z-index: 3;
+  overflow-y: scroll;
+}
+
+.Open {
+  display: block;
+}
+
+.Closed {
+  display: none;
+}
