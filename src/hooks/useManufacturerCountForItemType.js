@@ -27,7 +27,8 @@ const useManufacturerCountForItemType = (items = [], itemType = "") => {
       // for this purpose, use "findNumberOfOccurencesOfItemsInArray" utility function
       // defined in "../utils/findNumberOfOccurencesOfItemsInArray.js" file
       setManufacturerCountForItemType(() => ({
-        All: items.length,
+        //All: items.length,
+        "Brands - All": items.length,
         ...findNumberOfOccurencesOfItemsInArray(availableBrandsForItemType),
       }));
     }
