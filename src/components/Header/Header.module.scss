@@ -3,9 +3,19 @@
 @import "../../scss/variables";
 
 .Header {
+  position: relative;
   background-color: $primary;
   height: 4.5rem;
   margin-bottom: 2.5rem;
+
+  button {
+    position: absolute;
+    right: 1rem;
+    height: 100%;
+    color: $white;
+    font-size: 1.5rem;
+    z-index: 1;
+  }
 }
 
 .ContainerFluid {
@@ -16,6 +26,7 @@
 }
 
 .TotalPrice {
+  display: none;
   position: absolute;
   right: 1rem;
   height: 100%;
@@ -25,5 +36,21 @@
   i {
     color: $white;
     margin-right: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .Header button {
+    left: 1rem;
+  }
+
+  .TotalPrice {
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {
+  .Header button {
+    display: none;
   }
 }
