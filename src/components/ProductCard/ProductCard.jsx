@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 
 import classes from "./ProductCard.module.scss";
 
-import Button from "../Button";
-import Image from "../Image";
-import Text from "../Text";
+import { Button, Image, Text } from "..";
 
 import { dummyProductImage } from "./util";
 import { cartActions } from "../../store/slices";

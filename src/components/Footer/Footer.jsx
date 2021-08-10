@@ -1,6 +1,6 @@
 import classes from "./Footer.module.scss";
 
-import Text from "../Text";
+import { Text } from "..";
 
 const Footer = () => {
   return (

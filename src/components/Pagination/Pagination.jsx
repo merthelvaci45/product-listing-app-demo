@@ -6,8 +6,7 @@ import classes from "./Pagination.module.scss";
 
 import { paginationActions } from "../../store/slices";
 
-import FlatButton from "../../components/FlatButton";
-import Text from "../../components/Text";
+import { FlatButton, Text } from "..";
 
 /**
  * this component constitutes the pagination section at the bottom of the page.

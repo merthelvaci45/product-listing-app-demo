@@ -2,8 +2,7 @@ import PropTypes from "prop-types";
 
 import classes from "./ItemType.module.scss";
 
-import Button from "../Button";
-import Text from "../Text";
+import { Button, Text } from "..";
 
 /**
  * this component consitutes each pressable item type for displaying a collection of products

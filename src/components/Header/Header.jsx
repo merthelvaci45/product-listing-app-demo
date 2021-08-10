@@ -3,11 +3,7 @@ import { useSelector } from "react-redux";
 
 import classes from "./Header.module.scss";
 
-import ShoppingCart from "../ShoppingCart";
-import FlatButton from "../FlatButton";
-import Logo from "../Logo";
-import Modal from "../Modal";
-import Text from "../Text";
+import { FlatButton, Logo, Modal, ShoppingCart, Text } from "..";
 
 const Header = () => {
   const [

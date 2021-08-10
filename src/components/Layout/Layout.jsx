@@ -2,8 +2,7 @@ import PropTypes from "prop-types";
 
 import classes from "./Layout.module.scss";
 
-import Footer from "../Footer";
-import Header from "../Header";
+import { Footer, Header } from "..";
 
 /**
  * this component is a wrapper for any page component

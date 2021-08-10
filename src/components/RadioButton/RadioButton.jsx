@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import classes from "./RadioButton.module.scss";
 
-import Text from "../Text";
+import { Text } from "..";
 
 /**
  * this component extends from native browser radio input element with

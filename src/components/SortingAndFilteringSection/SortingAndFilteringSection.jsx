@@ -4,12 +4,14 @@ import PropTypes from "prop-types";
 
 import classes from "./SortingAndFilteringSection.module.scss";
 
-import Checkbox from "../Checkbox";
-import FeatureCardWithTitle from "../FeatureCardWithTitle";
-import FlatButton from "../FlatButton";
-import Input from "../Input";
-import Modal from "../Modal";
-import RadioButton from "../RadioButton";
+import {
+  Checkbox,
+  FeatureCardWithTitle,
+  FlatButton,
+  Input,
+  Modal,
+  RadioButton,
+} from "..";
 
 import { useWindowDimensions } from "../../hooks";
 import { productsActions } from "../../store/slices";

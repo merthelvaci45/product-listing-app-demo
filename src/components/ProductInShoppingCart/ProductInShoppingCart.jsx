@@ -5,8 +5,7 @@ import classes from "./ProductInShoppingCart.module.scss";
 
 import { cartActions } from "../../store/slices";
 
-import FlatButton from "../FlatButton";
-import Text from "../Text";
+import { FlatButton, Text } from "..";
 
 /**
  * this component constitutes a product name and price with its quantity

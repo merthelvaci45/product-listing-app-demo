@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./AllProducts.module.scss";
 
-import ItemType from "../../components/ItemType";
-import Layout from "../../components/Layout";
-import Pagination from "../../components/Pagination";
-import ProductCard from "../../components/ProductCard";
-import ShoppingCart from "../../components/ShoppingCart";
-import SortingAndFilteringSection from "../../components/SortingAndFilteringSection";
-import Spinner from "../../components/Spinner";
-import Title from "../../components/Title";
+import {
+  ItemType,
+  Layout,
+  Pagination,
+  ProductCard,
+  ShoppingCart,
+  SortingAndFilteringSection,
+  Spinner,
+  Title,
+} from "../../components";
 
 import {
   useAPI,

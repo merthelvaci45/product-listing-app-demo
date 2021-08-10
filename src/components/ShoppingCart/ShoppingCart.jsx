@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
 import classes from "./ShoppingCart.module.scss";
 
-import ProductInShoppingCart from "../ProductInShoppingCart";
-import Text from "../Text";
+import { ProductInShoppingCart, Text } from "..";
 
 const ShoppingCart = () => {
   const { cart, totalPrice } = useSelector((state) => state.cartSlice); // extract "cart" and "totalPrice" states from "cartSlice" slice of redux store

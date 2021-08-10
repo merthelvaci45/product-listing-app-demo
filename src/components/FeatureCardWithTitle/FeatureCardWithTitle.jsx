@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import classes from "./FeatureCardWithTitle.module.scss";
 
-import Title from "../Title";
+import { Title } from "..";
 
 /**
  * this component consitutes a Card like structure with a specified title.

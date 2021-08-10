@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import classes from "./Modal.module.scss";
 
-import Backdrop from "../Backdrop";
+import { Backdrop } from "..";
 
 /**
  * this component is opened on top of all screen components with the content provided as "children" prop

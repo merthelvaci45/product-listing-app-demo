@@ -2,7 +2,7 @@ import classes from "./Logo.module.scss";
 
 import { logoSvg } from "./util";
 
-import Image from "../Image";
+import { Image } from "..";
 
 /**
  * this component renders the logo of the application in <Header> component
