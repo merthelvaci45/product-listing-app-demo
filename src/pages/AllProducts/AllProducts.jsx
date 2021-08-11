@@ -43,17 +43,9 @@ const AllProducts = () => {
   }); // invoke hook to fetch "items" data from dummy backend API
 
   const [manufacturersForMugType, manufacturersForShirtType] =
-    useManufacturerCountForItemType(
-      isBrandFilteringApplied || isTagFilteringApplied
-        ? filteredProducts
-        : products
-    );
+    useManufacturerCountForItemType(products);
 
-  const [tagsForMugType, tagsForShirtType] = useTagCountForItemType(
-    isBrandFilteringApplied || isTagFilteringApplied
-      ? filteredProducts
-      : products
-  );
+  const [tagsForMugType, tagsForShirtType] = useTagCountForItemType(products);
 
   // the following 2 variables are passed to "SearchingAndFilteringSection" component as props
   // and they are responsible for populating "Brands" and "Tags" filtering box contents, respectively.
