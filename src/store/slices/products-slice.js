@@ -22,10 +22,17 @@ const productsSlice = createSlice({
     },
     fetchProductsForPage(state, action) {
       const { pageNumber, itemType } = action.payload;
+      /**
+       * try to get all available products first. for this purpose,
+       * check if any filtering is in action. if no filtering is applied yet,
+       * "availableProducts" will be equal to "state.products", otherwise,
+       * it will be set to "state.filteredProducts"
+       */
       const availableProducts =
         !state.isBrandFilteringApplied && !state.isTagFilteringApplied
           ? state.products
           : state.filteredProducts;
+
       state.mugTypeProducts = availableProducts.filter(
         (product) => product.itemType === "mug"
       );
@@ -33,6 +40,8 @@ const productsSlice = createSlice({
         (product) => product.itemType === "shirt"
       );
 
+      // since products per page should be limited to at most 16,
+      // the following logic should be applied.
       state.productsInPage =
         itemType === "mug"
           ? state.mugTypeProducts.slice((pageNumber - 1) * 16, 16 * pageNumber)
@@ -43,31 +52,47 @@ const productsSlice = createSlice({
     },
     sortProductsBy(state, action) {
       const { selectedSortingOption } = action.payload;
+
+      // update sortingOptions state with the one currently selected, which is set to true
       state.sortingOptions = {
         ...initialSortingRadioButtonsState,
         [selectedSortingOption]: true,
       };
-      const isFilteringApplied =
+
+      const isFilteringApplied = // check if any filtering is applied or not
         state.isTagFilteringApplied || state.isBrandFilteringApplied;
 
-      const sortedProducts = isFilteringApplied
+      const availableProducts = isFilteringApplied
         ? [...state.filteredProducts]
         : [...state.products];
+
+      let sortedProducts = [];
+
+      // implement actual sorting logic in "switch" block
+      // depending on selected sorting option
       switch (selectedSortingOption) {
         case SORT_OPTIONS_IDS.ASCENDING_PRICE:
-          sortedProducts.sort((first, second) => first.price - second.price);
+          sortedProducts = availableProducts.sort(
+            (first, second) => first.price - second.price
+          );
           break;
 
         case SORT_OPTIONS_IDS.DESCENDING_PRICE:
-          sortedProducts.sort((first, second) => second.price - first.price);
+          sortedProducts = availableProducts.sort(
+            (first, second) => second.price - first.price
+          );
           break;
 
         case SORT_OPTIONS_IDS.TO_OLDEST:
-          sortedProducts.sort((first, second) => first.added - second.added);
+          sortedProducts = availableProducts.sort(
+            (first, second) => first.added - second.added
+          );
           break;
 
         case SORT_OPTIONS_IDS.TO_NEWEST:
-          sortedProducts.sort((first, second) => second.added - first.added);
+          sortedProducts = availableProducts.sort(
+            (first, second) => second.added - first.added
+          );
           break;
 
         default:
@@ -101,8 +126,12 @@ const productsSlice = createSlice({
         brandsCheckboxStates.hasOwnProperty("Brands - All") &&
         tagsCheckboxStates.hasOwnProperty("Tags - All")
       ) {
+        // if "Brands - All" is unseleceted, it means either user has applied filtering for Brands
+        // or none of the Brands is selected
         if (!brandsCheckboxStates["Brands - All"]) {
-          state.isBrandFilteringApplied = true;
+          state.isBrandFilteringApplied = true; // then, set "isBrandFilteringApplied" state to true
+
+          // if no filtering option for Brand is selected, then "filteredProducts" state will be []
           if (
             Object.values(brandsCheckboxStates).every(
               (checkboxState) => !checkboxState
@@ -110,17 +139,27 @@ const productsSlice = createSlice({
           ) {
             state.filteredProducts = [];
           } else {
-            const filteredProducts = [...state.products].filter(
+            // else, apply proper filtering by selected Brand(s)
+            const availableProducts = state.isTagFilteringApplied
+              ? [...state.filteredProducts]
+              : [...state.products];
+
+            const filteredProducts = availableProducts.filter(
               (product) => brandsCheckboxStates[product.manufacturer]
             );
             state.filteredProducts = filteredProducts;
           }
         } else {
+          // if "Brands - All" option is selected, it means no filtering is applied for Brands
           state.isBrandFilteringApplied = false;
         }
 
+        // if "Tags - All" is unseleceted, it means either user has applied filtering for Tags
+        // or none of the Tags is selected
         if (!tagsCheckboxStates["Tags - All"]) {
-          state.isTagFilteringApplied = true;
+          state.isTagFilteringApplied = true; // then, set "isTagFilteringApplied" state to true
+
+          // if no filtering option for Tag is selected, then "filteredProducts" state will be []
           if (
             Object.values(tagsCheckboxStates).every(
               (checkboxState) => !checkboxState
@@ -128,15 +167,18 @@ const productsSlice = createSlice({
           ) {
             state.filteredProducts = [];
           } else {
+            // else, apply proper filtering by selected Tag(s)
             const availableProducts = state.isBrandFilteringApplied
               ? [...state.filteredProducts]
               : [...state.products];
+
             const filteredProducts = availableProducts.filter((product) =>
               product.tags.some((tag) => tagsCheckboxStates[tag])
             );
             state.filteredProducts = filteredProducts;
           }
         } else {
+          // if "Tags - All" option is selected, it means no filtering is applied for Tags
           state.isTagFilteringApplied = false;
         }
       }
