@@ -1,13 +1,12 @@
 const findNumberOfOccurencesOfItemsInArray = (itemsArr = []) => {
   if (itemsArr.length === 0) return;
 
-  const countsOfItems = {};
-
-  for (const item of itemsArr) {
-    countsOfItems[item] = countsOfItems[item] ? countsOfItems[item] + 1 : 1;
-  }
-
-  return countsOfItems;
+  return itemsArr.reduce((itemCounts, item) => {
+    return {
+      ...itemCounts,
+      [item]: itemCounts[item] ? itemCounts[item] + 1 : 1,
+    };
+  }, {});
 };
 
 export default findNumberOfOccurencesOfItemsInArray;
