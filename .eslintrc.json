@@ -1,0 +1,76 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended" // Make this the last element so prettier config overrides other formatting rules
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "plugins": ["react", "react-hooks", "jsx-a11y"],
+  "rules": {
+    "prettier/prettier": [2, { "useTabs": false }, { "usePrettierrc": true }], // Use .prettierrc file as source
+    "eqeqeq": [2, "always"],
+    "require-await": 1,
+    "indent": 2,
+    "camelcase": 2,
+    "max-len": [0, { "code": 120 }],
+    "prefer-object-spread": 1,
+    "import/no-cycle": 0,
+    "import/prefer-default-export": 0,
+    "no-nested-ternary": 2,
+    "no-const-assign": 2,
+    "no-param-reassign": 0,
+    "no-plusplus": 0,
+    "no-shadow": 0,
+    "no-prototype-builtins": 0,
+    "react-hooks/rules-of-hooks": 2,
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "react/button-has-type": [
+      2,
+      {
+        "button": true,
+        "submit": true
+      }
+    ],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
+    "react/prop-types": 2,
+    "react/forbid-prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-no-bind": 0,
+    "react/jsx-fragments": 1,
+    "jsx-a11y/alt-text": 2,
+    "jsx-a11y/heading-has-content": 2,
+    "jsx-a11y/html-has-lang": 2,
+    "jsx-a11y/img-redundant-alt": 2,
+    "jsx-a11y/label-has-associated-control": 2,
+    "jsx-a11y/lang": 2,
+    "jsx-a11y/role-has-required-aria-props": 2,
+    "jsx-a11y/tabindex-no-positive": 2
+  }
+}
