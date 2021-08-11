@@ -15,9 +15,10 @@ const Text = ({ color, fontSize, fontWeight, isBlockDisplay, text }) => {
 
   return (
     <TextComponent
-      style={{ marginBottom: isBlockDisplay ? ".5rem" : "0" }}
-      className={`${classes[color]} ${classes[fontSize]} ${classes[fontWeight]}`}
-    >
+      style={{
+        marginBottom: isBlockDisplay ? ".5rem" : "0",
+      }}
+      className={`${classes[color]} ${classes[fontSize]} ${classes[fontWeight]}`}>
       {text}
     </TextComponent>
   );

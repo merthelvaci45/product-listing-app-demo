@@ -20,13 +20,9 @@ const Modal = ({ children, isModalOpen, onDismissModal }) => {
       <Backdrop isBackdropActivated={isModalOpen} onDismiss={onDismissModal} />
       <div
         aria-label="Pop-up modal"
-        className={`${classes.Modal} ${
-          isModalOpen ? classes.Open : classes.Closed
-        }`}
-        role="presentation"
-        tabIndex="0"
-        type="button"
-      >
+        className={`${classes.Modal} ${isModalOpen ? classes.Open : classes.Closed}`}
+        role="button"
+        tabIndex="0">
         {children}
       </div>
     </div>

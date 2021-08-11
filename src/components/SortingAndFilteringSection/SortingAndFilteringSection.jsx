@@ -4,14 +4,7 @@ import PropTypes from "prop-types";
 
 import classes from "./SortingAndFilteringSection.module.scss";
 
-import {
-  Checkbox,
-  FeatureCardWithTitle,
-  FlatButton,
-  Input,
-  Modal,
-  RadioButton,
-} from "..";
+import { Checkbox, FeatureCardWithTitle, FlatButton, Input, Modal, RadioButton } from "..";
 
 import { useWindowDimensions } from "../../hooks";
 import { productsActions } from "../../store/slices";
@@ -26,18 +19,14 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
   // the following 3 states will be in action only for screen sizes < 1200px
   const [isSortingBoxDisplayed, setIsSortingBoxDisplayed] = useState(false);
 
-  const [isBrandsFilteringBoxDisplayed, setIsBrandsFilteringBoxDisplayed] =
-    useState(false);
+  const [isBrandsFilteringBoxDisplayed, setIsBrandsFilteringBoxDisplayed] = useState(false);
 
-  const [isTagsFilteringBoxDisplayed, setIsTagsFilteringBoxDisplayed] =
-    useState(false);
+  const [isTagsFilteringBoxDisplayed, setIsTagsFilteringBoxDisplayed] = useState(false);
 
   const { width } = useWindowDimensions();
 
   const dispatch = useDispatch();
-  const { filteredProducts, sortedBy, sortingOptions } = useSelector(
-    (state) => state.productsSlice
-  );
+  const { filteredProducts, sortedBy, sortingOptions } = useSelector((state) => state.productsSlice);
 
   /**
    * this handler function is responsible for updating filtering text field
@@ -57,7 +46,9 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
    */
   const sortProductsByOptionHandler = (optionId) => {
     dispatch(
-      productsActions.sortProductsBy({ selectedSortingOption: optionId })
+      productsActions.sortProductsBy({
+        selectedSortingOption: optionId,
+      })
     );
   };
 
@@ -128,16 +119,13 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
   };
 
   // this handler function is responsible for toggling display status of "sorting" modal for small screen size devices
-  const toggleSortingBoxDisplayHandler = () =>
-    setIsSortingBoxDisplayed((prevState) => !prevState);
+  const toggleSortingBoxDisplayHandler = () => setIsSortingBoxDisplayed((prevState) => !prevState);
 
   // this handler function is responsible for toggling display status of "brands filtering" modal for small screen size devices
-  const toggleBrandsFilteringBoxDisplayHandler = () =>
-    setIsBrandsFilteringBoxDisplayed((prevState) => !prevState);
+  const toggleBrandsFilteringBoxDisplayHandler = () => setIsBrandsFilteringBoxDisplayed((prevState) => !prevState);
 
   // this handler function is responsible for toggling display status of "tags filtering" modal for small screen size devices
-  const toggleTagsFilteringBoxDisplayHandler = () =>
-    setIsTagsFilteringBoxDisplayed((prevState) => !prevState);
+  const toggleTagsFilteringBoxDisplayHandler = () => setIsTagsFilteringBoxDisplayed((prevState) => !prevState);
 
   /**
    * this effect hook is responsible for setting all brands filtering checkbox states
@@ -147,15 +135,15 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
    * Brands all available products are displayed.
    */
   useEffect(() => {
-    setBrandsCheckboxStates(() => {
-      return Object.keys(manufacturers).reduce(
+    setBrandsCheckboxStates(() =>
+      Object.keys(manufacturers).reduce(
         (checkboxStates, brand) => ({
           ...checkboxStates,
           [brand]: brand === "Brands - All",
         }),
         {}
-      );
-    });
+      )
+    );
   }, [manufacturers.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
@@ -166,15 +154,15 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
    * Tags all available products are displayed.
    */
   useEffect(() => {
-    setTagsCheckboxStates(() => {
-      return Object.keys(tags).reduce(
+    setTagsCheckboxStates(() =>
+      Object.keys(tags).reduce(
         (checkboxStates, tag) => ({
           ...checkboxStates,
           [tag]: tag === "Tags - All",
         }),
         {}
-      );
-    });
+      )
+    );
   }, [tags.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
@@ -202,7 +190,9 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     // run this hook only if a sorting option is specified by user
     if (sortedBy) {
       dispatch(
-        productsActions.sortProductsBy({ selectedSortingOption: sortedBy })
+        productsActions.sortProductsBy({
+          selectedSortingOption: sortedBy,
+        })
       );
     }
   }, [dispatch, filteredProducts.length, sortedBy]);
@@ -223,16 +213,9 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
   const brandsFilteringBoxContent = (
     <FeatureCardWithTitle title="Brands">
-      <Input
-        id="brand"
-        onChanged={setFilteringTextHandler}
-        placeholder="Search brand"
-        value={brandFilteringText}
-      />
+      <Input id="brand" onChanged={setFilteringTextHandler} placeholder="Search brand" value={brandFilteringText} />
       {Object.keys(manufacturers)
-        .filter((manufacturer) =>
-          manufacturer.toLowerCase().includes(brandFilteringText.toLowerCase())
-        )
+        .filter((manufacturer) => manufacturer.toLowerCase().includes(brandFilteringText.toLowerCase()))
         .map((manufacturer) => (
           <Checkbox
             key={manufacturer}
@@ -240,10 +223,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
             isChecked={brandsCheckboxStates[manufacturer]}
             label={manufacturer}
             quantity={manufacturers[manufacturer]}
-            onChanged={toggleBrandsFilteringCheckboxStatesHandler.bind(
-              this,
-              manufacturer
-            )}
+            onChanged={toggleBrandsFilteringCheckboxStatesHandler.bind(this, manufacturer)}
           />
         ))}
     </FeatureCardWithTitle>
@@ -251,16 +231,9 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
   const tagsFilteringBoxContent = (
     <FeatureCardWithTitle title="Tags">
-      <Input
-        id="tag"
-        onChanged={setFilteringTextHandler}
-        placeholder="Search tag"
-        value={tagFilteringText}
-      />
+      <Input id="tag" onChanged={setFilteringTextHandler} placeholder="Search tag" value={tagFilteringText} />
       {Object.keys(tags)
-        .filter((tag) =>
-          tag.toLowerCase().includes(tagFilteringText.toLowerCase())
-        )
+        .filter((tag) => tag.toLowerCase().includes(tagFilteringText.toLowerCase()))
         .map((tag) => (
           <Checkbox
             key={tag}
@@ -276,9 +249,9 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
   return (
     <section className={classes.LeftSection}>
-      {/*******************************************************
+      {/** *****************************************************
        * Displayed only for devices with screen sizes < 1200px
-       ********************************************************/}
+       ******************************************************* */}
       <div className={classes.ActionButtonsGroup}>
         <FlatButton onPressed={toggleSortingBoxDisplayHandler}>
           <i className="fas fa-filter" />
@@ -295,10 +268,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
       </div>
 
       {width < 1200 ? (
-        <Modal
-          isModalOpen={isSortingBoxDisplayed}
-          onDismissModal={toggleSortingBoxDisplayHandler}
-        >
+        <Modal isModalOpen={isSortingBoxDisplayed} onDismissModal={toggleSortingBoxDisplayHandler}>
           {sortingBoxContent}
           <FlatButton onPressed={toggleSortingBoxDisplayHandler}>
             <i className="fas fa-times" />
@@ -310,10 +280,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
       )}
 
       {width < 1200 ? (
-        <Modal
-          isModalOpen={isBrandsFilteringBoxDisplayed}
-          onDismissModal={toggleBrandsFilteringBoxDisplayHandler}
-        >
+        <Modal isModalOpen={isBrandsFilteringBoxDisplayed} onDismissModal={toggleBrandsFilteringBoxDisplayHandler}>
           {brandsFilteringBoxContent}
           <FlatButton onPressed={toggleBrandsFilteringBoxDisplayHandler}>
             <i className="fas fa-times" />
@@ -325,10 +292,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
       )}
 
       {width < 1200 ? (
-        <Modal
-          isModalOpen={isTagsFilteringBoxDisplayed}
-          onDismissModal={toggleTagsFilteringBoxDisplayHandler}
-        >
+        <Modal isModalOpen={isTagsFilteringBoxDisplayed} onDismissModal={toggleTagsFilteringBoxDisplayHandler}>
           {tagsFilteringBoxContent}
           <FlatButton onPressed={toggleTagsFilteringBoxDisplayHandler}>
             <i className="fas fa-times" />

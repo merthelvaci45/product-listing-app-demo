@@ -11,17 +11,9 @@ import classes from "./Input.module.scss";
  * @param {String} value: prop to keep track of currently typed input field value. it must
  * be used alongside "onChange" prop of <input /> element for providing for two-way binding of data
  */
-const Input = ({ id, onChanged, placeholder, value }) => {
-  return (
-    <input
-      className={classes.Input}
-      id={id}
-      onChange={onChanged}
-      placeholder={placeholder}
-      value={value}
-    />
-  );
-};
+const Input = ({ id, onChanged, placeholder, value }) => (
+  <input className={classes.Input} id={id} onChange={onChanged} placeholder={placeholder} value={value} />
+);
 
 Input.propTypes = {
   id: PropTypes.string.isRequired,

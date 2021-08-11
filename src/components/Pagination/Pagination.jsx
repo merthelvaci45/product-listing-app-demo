@@ -14,9 +14,7 @@ import { FlatButton, Text } from "..";
  */
 const Pagination = ({ totalNumberOfPages }) => {
   const dispatch = useDispatch();
-  const { pageNumber, pageNumbers } = useSelector(
-    (state) => state.paginationSlice
-  ); // extract "pageNumber" and "pageNumbers" states of "paginationSlice"
+  const { pageNumber, pageNumbers } = useSelector((state) => state.paginationSlice); // extract "pageNumber" and "pageNumbers" states of "paginationSlice"
 
   /**
    * this handler function is responsible for dispatching the action of "paginationSlice"
@@ -42,7 +40,9 @@ const Pagination = ({ totalNumberOfPages }) => {
    */
   const setPageNumberHandler = ({ currentTarget }) => {
     const { id } = currentTarget; // in order to determine which page number is pressed, pull out "id" prop
-    id !== "..." && dispatch(paginationActions.setPageNumberTo(parseInt(id)));
+    if (id !== "...") {
+      dispatch(paginationActions.setPageNumberTo(parseInt(id, 10)));
+    }
   };
 
   /**
@@ -50,33 +50,34 @@ const Pagination = ({ totalNumberOfPages }) => {
    * to the specified redux state after the 1st render occurs.
    */
   useEffect(() => {
-    dispatch(paginationActions.setTotalPageNumbers({ totalNumberOfPages }));
+    dispatch(
+      paginationActions.setTotalPageNumbers({
+        totalNumberOfPages,
+      })
+    );
   }, [dispatch, totalNumberOfPages]);
 
   return (
     <div className={classes.Pagination}>
       <FlatButton onPressed={decrementPageNumberHandler}>
-        <i className="fas fa-arrow-left"></i>
+        <i className="fas fa-arrow-left" />
         <Text fontWeight="FontWeight600" text="Prev" />
       </FlatButton>
       <div className={classes.PageNumbers}>
-        {pageNumbers.map((number) => {
-          return (
-            <FlatButton
-              key={number}
-              id={number.toString()}
-              isBorderedStyle={pageNumber === number}
-              isNotPrimaryColor
-              onPressed={setPageNumberHandler}
-            >
-              {number}
-            </FlatButton>
-          );
-        })}
+        {pageNumbers.map((number) => (
+          <FlatButton
+            key={number}
+            id={number.toString()}
+            isBorderedStyle={pageNumber === number}
+            isNotPrimaryColor
+            onPressed={setPageNumberHandler}>
+            {number}
+          </FlatButton>
+        ))}
       </div>
       <FlatButton onPressed={incrementPageNumberHandler}>
         <Text fontWeight="FontWeight600" text="Next" />
-        <i className="fas fa-arrow-right"></i>
+        <i className="fas fa-arrow-right" />
       </FlatButton>
     </div>
   );

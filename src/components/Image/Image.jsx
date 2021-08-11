@@ -15,18 +15,16 @@ lazySizes.loadMode = 1;
  * @param {boolean} isSvg: bool prop to check if an image is in svg format or not. if true, it means
  * that it will have no corresponding image with WebP format as svg images cannot be converted to WebP
  */
-const Image = ({ imgAltText, imgFallbackSrc, imgWebpSrc, isSvg }) => {
-  return (
-    <figure className={classes.Figure}>
-      <img
-        className={`${classes.Image} lazyload`}
-        data-src={imgFallbackSrc}
-        data-srcset={isSvg ? null : imgWebpSrc}
-        alt={imgAltText}
-      />
-    </figure>
-  );
-};
+const Image = ({ imgAltText, imgFallbackSrc, imgWebpSrc, isSvg }) => (
+  <figure className={classes.Figure}>
+    <img
+      className={`${classes.Image} lazyload`}
+      data-src={imgFallbackSrc}
+      data-srcset={isSvg ? null : imgWebpSrc}
+      alt={imgAltText}
+    />
+  </figure>
+);
 
 Image.propTypes = {
   imgAltText: PropTypes.string.isRequired,

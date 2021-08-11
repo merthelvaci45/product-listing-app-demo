@@ -33,9 +33,7 @@ const paginationSlice = createSlice({
         // if filtering of products is in action though, state.pageNumbers = [1, 2, ..., state.totalNumberOfPages]
         // only if current "state.totalNumberOfPages" is less than 8 so that above assignment in if statement cannot
         // be held. so, update "state.pageNumbers" as required.
-        state.pageNumbers = [
-          ...Array.from({ length: state.totalNumberOfPages }, (_, i) => i + 1),
-        ];
+        state.pageNumbers = [...Array.from({ length: state.totalNumberOfPages }, (_, i) => i + 1)];
       }
     },
     incrementPageNumber(state) {

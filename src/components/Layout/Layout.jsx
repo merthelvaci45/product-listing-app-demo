@@ -11,15 +11,13 @@ import { Footer, Header } from "..";
  * to each page by default.
  * @param {Node} children: JSX node element to be rendered
  */
-const Layout = ({ children }) => {
-  return (
-    <>
-      <Header />
-      <main className={classes.Layout}>{children}</main>
-      <Footer />
-    </>
-  );
-};
+const Layout = ({ children }) => (
+  <>
+    <Header />
+    <main className={classes.Layout}>{children}</main>
+    <Footer />
+  </>
+);
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,

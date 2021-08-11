@@ -21,17 +21,33 @@ const cartSlice = createSlice({
 
       // if "cart" is empty, it means the product is being added for the first time
       if (state.cart.length === 0) {
-        state.cart = [...state.cart, { id, name, price, quantity: 1 }];
+        state.cart = [
+          ...state.cart,
+          {
+            id,
+            name,
+            price,
+            quantity: 1,
+          },
+        ];
       } else {
-        const existingProductIndex = state.cart.findIndex(
-          (product) => product.id === id
-        ); // check if the product already exists in "cart"
+        const existingProductIndex = state.cart.findIndex((product) => product.id === id); // check if the product already exists in "cart"
         if (existingProductIndex < 0) {
           // it means, the product has not been added to "cart" before, then add it for the first time
-          state.cart = [...state.cart, { id, name, price, quantity: 1 }];
+          state.cart = [
+            ...state.cart,
+            {
+              id,
+              name,
+              price,
+              quantity: 1,
+            },
+          ];
         } else {
           // it means, the product has already been added to "cart" before, then just increase its quantity by 1
-          const existingProduct = { ...state.cart[existingProductIndex] }; // first, extract all current properties of the existing product
+          const existingProduct = {
+            ...state.cart[existingProductIndex],
+          }; // first, extract all current properties of the existing product
           existingProduct.quantity++; // increase its quantity by 1
           state.cart[existingProductIndex] = existingProduct; // update the product in "cart"
         }
@@ -41,7 +57,6 @@ const cartSlice = createSlice({
     },
     removeItemFromCart(state, action) {
       const { id } = action.payload;
-      let existingProduct;
       /**
        * During removal of a product, there are 2 distinct cases.
        * The first one is that the number of current quantity of
@@ -57,14 +72,14 @@ const cartSlice = createSlice({
       if (state.cart.length === 0) return; // if there is no item in "cart", immediately return and do nothing
 
       // try to find if the product, which is being removed does already exist in "cart"
-      const existingProductIndex = state.cart.findIndex(
-        (product) => product.id === id
-      );
+      const existingProductIndex = state.cart.findIndex((product) => product.id === id);
 
       if (existingProductIndex < 0) return; // it means the product is NOT in the "cart", so immediately return and do nothing
 
       // if the product do already in "cart", extract it first
-      existingProduct = { ...state.cart[existingProductIndex] };
+      const existingProduct = {
+        ...state.cart[existingProductIndex],
+      };
 
       // check if its quantity is greater than 1
       const productQuantity = existingProduct.quantity;

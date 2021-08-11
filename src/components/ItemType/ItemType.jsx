@@ -12,22 +12,16 @@ import { Button, Text } from "..";
  * @param {Function} onClicked: prop to determine what happens when the component is pressed upon
  * @param {String} itemType: prop to render name of the component
  */
-const ItemType = ({ isSelected, onClicked, itemType }) => {
-  return (
-    <Button
-      onClicked={onClicked}
-      overrideClassName={classes.ItemType}
-      type={!isSelected ? "Secondary" : "Primary"}
-    >
-      <Text
-        color={!isSelected ? "Primary" : "LightBlue"}
-        fontSize="FontSize13"
-        fontWeight="FontWeight600"
-        text={itemType}
-      />
-    </Button>
-  );
-};
+const ItemType = ({ isSelected, onClicked, itemType }) => (
+  <Button onClicked={onClicked} overrideClassName={classes.ItemType} type={!isSelected ? "Secondary" : "Primary"}>
+    <Text
+      color={!isSelected ? "Primary" : "LightBlue"}
+      fontSize="FontSize13"
+      fontWeight="FontWeight600"
+      text={itemType}
+    />
+  </Button>
+);
 
 ItemType.propTypes = {
   isSelected: PropTypes.bool,

@@ -12,19 +12,16 @@ const Button = ({
   onClicked, // prop to trigger "onClick" method of native <button> component
   overrideClassName, // prop to further stylize this component from outside (customly). it can take any number of classnames
   type, // prop to determine background color of the component. (Primary || Secondary): (#1ea4ce || #f2f0fd)
-}) => {
-  return (
-    <button
-      className={`${classes.Button} ${
-        isBlockButton ? classes.BlockButton : classes.InlineButton
-      } ${classes[type]} ${overrideClassName}`}
-      onClick={onClicked}
-      type="button"
-    >
-      {children}
-    </button>
-  );
-};
+}) => (
+  <button
+    className={`${classes.Button} ${isBlockButton ? classes.BlockButton : classes.InlineButton} ${
+      classes[type]
+    } ${overrideClassName}`}
+    onClick={onClicked}
+    type="button">
+    {children}
+  </button>
+);
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,

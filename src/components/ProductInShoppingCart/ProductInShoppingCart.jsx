@@ -36,18 +36,13 @@ const ProductInShoppingCart = ({ id, name, price, quantity }) => {
       </div>
       <div className={classes.ProductQuantity}>
         <FlatButton onPressed={removeProductFromCartHandler}>
-          <i className="fas fa-minus"></i>
+          <i className="fas fa-minus" />
         </FlatButton>
         <div>
-          <Text
-            color="White"
-            fontSize="FontSize15"
-            fontWeight="FontWeight700"
-            text={quantity.toString()}
-          />
+          <Text color="White" fontSize="FontSize15" fontWeight="FontWeight700" text={quantity.toString()} />
         </div>
         <FlatButton onPressed={addProductToCartHandler}>
-          <i className="fas fa-plus"></i>
+          <i className="fas fa-plus" />
         </FlatButton>
       </div>
     </div>

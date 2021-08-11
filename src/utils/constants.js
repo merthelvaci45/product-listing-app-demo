@@ -21,8 +21,14 @@ export const SORT_OPTIONS_IDS = {
 };
 
 export const SORT_OPTIONS = [
-  { id: SORT_OPTIONS_IDS.ASCENDING_PRICE, label: "Price low to high" },
-  { id: SORT_OPTIONS_IDS.DESCENDING_PRICE, label: "Price high to low" },
+  {
+    id: SORT_OPTIONS_IDS.ASCENDING_PRICE,
+    label: "Price low to high",
+  },
+  {
+    id: SORT_OPTIONS_IDS.DESCENDING_PRICE,
+    label: "Price high to low",
+  },
   { id: SORT_OPTIONS_IDS.TO_OLDEST, label: "New to old" },
   { id: SORT_OPTIONS_IDS.TO_NEWEST, label: "Old to new" },
 ];

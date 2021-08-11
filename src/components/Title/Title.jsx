@@ -9,13 +9,7 @@ import classes from "./Title.module.scss";
  */
 const Title = ({ isSubTitle, title }) => {
   const TitleComponent = isSubTitle ? "h2" : "h1";
-  return (
-    <TitleComponent
-      className={`${isSubTitle ? classes.SubTitle : classes.MainTitle}`}
-    >
-      {title}
-    </TitleComponent>
-  );
+  return <TitleComponent className={`${isSubTitle ? classes.SubTitle : classes.MainTitle}`}>{title}</TitleComponent>;
 };
 
 Title.propTypes = {

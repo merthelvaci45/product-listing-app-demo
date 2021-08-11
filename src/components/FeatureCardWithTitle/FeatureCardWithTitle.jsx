@@ -11,24 +11,21 @@ import { Title } from "..";
  * the height will be adjusted according to the height of "children" prop JSX element.
  * @param {String} title: prop to set a specific title for the component
  */
-const FeatureCardWithTitle = ({ children, isFixedHeight, title }) => {
-  return (
-    <>
-      <Title isSubTitle title={title} />
-      <div
-        className={`${classes.FeatureCard} ${
-          isFixedHeight ? classes.FixedHeight : ""
-        }`}
-      >
-        {children}
-      </div>
-    </>
-  );
-};
+const FeatureCardWithTitle = ({ children, isFixedHeight, title }) => (
+  <>
+    <Title isSubTitle title={title} />
+    <div className={`${classes.FeatureCard} ${isFixedHeight ? classes.FixedHeight : ""}`}>{children}</div>
+  </>
+);
 
 FeatureCardWithTitle.propTypes = {
   children: PropTypes.node.isRequired,
+  isFixedHeight: PropTypes.bool,
   title: PropTypes.string.isRequired,
+};
+
+FeatureCardWithTitle.defaultProps = {
+  isFixedHeight: false,
 };
 
 export default FeatureCardWithTitle;

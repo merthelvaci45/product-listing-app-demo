@@ -39,7 +39,6 @@ const useAPI = ({
         setApiData(() => data); // update "apiData" state
       } catch (error) {
         setIsError(true); // set "isError" state to true in case of error
-        console.log(error);
       } finally {
         setIsLoading(false); // no matter what returns from API call, set "isLoading" status to false.
       }

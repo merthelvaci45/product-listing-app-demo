@@ -14,25 +14,17 @@ import { Text } from "..";
  * @param {Number} quantity: prop to display the quantity of each checkbox item
  *  within parantheses in "Tags" and "Brands" filtering options
  */
-const Checkbox = ({ isChecked, id, label, onChanged, quantity }) => {
-  return (
-    <>
-      <label className={classes.Label} htmlFor={id}>
-        <Text color="TextSecondary" text={label} />
-        <span />
-        <Text color="Gray300" text={`(${quantity})`} />
-        <input
-          id={id}
-          name={id}
-          checked={isChecked}
-          onChange={onChanged}
-          type="checkbox"
-        />
-        <span className={classes.Checkmark} />
-      </label>
-    </>
-  );
-};
+const Checkbox = ({ isChecked, id, label, onChanged, quantity }) => (
+  <>
+    <label className={classes.Label} htmlFor={id}>
+      <Text color="TextSecondary" text={label} />
+      <span />
+      <Text color="Gray300" text={`(${quantity})`} />
+      <input id={id} name={id} checked={isChecked} onChange={onChanged} type="checkbox" />
+      <span className={classes.Checkmark} />
+    </label>
+  </>
+);
 
 Checkbox.propTypes = {
   id: PropTypes.string.isRequired,

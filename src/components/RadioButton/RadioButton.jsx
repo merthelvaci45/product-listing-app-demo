@@ -12,21 +12,13 @@ import { Text } from "..";
  * @param {String} label: prop to display radio button label text
  * @param {Function} onChanged: prop to toggle checked status of radio button
  */
-const RadioButton = ({ isChecked, id, label, onChanged }) => {
-  return (
-    <label className={classes.Label} htmlFor={id}>
-      <Text color="TextSecondary" text={label} />
-      <input
-        id={id}
-        name={id}
-        checked={isChecked}
-        onChange={onChanged}
-        type="radio"
-      />
-      <span className={classes.Checkmark} />
-    </label>
-  );
-};
+const RadioButton = ({ isChecked, id, label, onChanged }) => (
+  <label className={classes.Label} htmlFor={id}>
+    <Text color="TextSecondary" text={label} />
+    <input id={id} name={id} checked={isChecked} onChange={onChanged} type="radio" />
+    <span className={classes.Checkmark} />
+  </label>
+);
 
 RadioButton.propTypes = {
   id: PropTypes.string.isRequired,

@@ -14,25 +14,16 @@ import {
   Title,
 } from "../../components";
 
-import {
-  useAPI,
-  useManufacturerCountForItemType,
-  useTagCountForItemType,
-  useWindowDimensions,
-} from "../../hooks";
+import { useAPI, useManufacturerCountForItemType, useTagCountForItemType, useWindowDimensions } from "../../hooks";
 import { productsActions } from "../../store/slices";
 import { ITEMS_API_BASE_URL } from "../../utils";
 
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug"); // state to keep track of products beloging to which itemType is listed
   const dispatch = useDispatch();
-  const {
-    filteredProducts,
-    isBrandFilteringApplied,
-    isTagFilteringApplied,
-    products,
-    productsInPage,
-  } = useSelector((state) => state.productsSlice);
+  const { filteredProducts, isBrandFilteringApplied, isTagFilteringApplied, products, productsInPage } = useSelector(
+    (state) => state.productsSlice
+  );
   const pageNumber = useSelector((state) => state.paginationSlice.pageNumber);
 
   const { width } = useWindowDimensions();
@@ -41,15 +32,13 @@ const AllProducts = () => {
     queryPath: ITEMS_API_BASE_URL,
   }); // invoke hook to fetch "items" data from dummy backend API
 
-  const [manufacturersForMugType, manufacturersForShirtType] =
-    useManufacturerCountForItemType(itemsData);
+  const [manufacturersForMugType, manufacturersForShirtType] = useManufacturerCountForItemType(itemsData);
 
   const [tagsForMugType, tagsForShirtType] = useTagCountForItemType(itemsData);
 
   // the following 2 variables are passed to "SearchingAndFilteringSection" component as props
   // and they are responsible for populating "Brands" and "Tags" filtering box contents, respectively.
-  const manufacturers =
-    itemType === "mug" ? manufacturersForMugType : manufacturersForShirtType;
+  const manufacturers = itemType === "mug" ? manufacturersForMugType : manufacturersForShirtType;
 
   const tags = itemType === "mug" ? tagsForMugType : tagsForShirtType;
 
@@ -63,7 +52,11 @@ const AllProducts = () => {
   useEffect(() => {
     // dispatch this action only if data fetching did NOT occur before
     if (itemsData?.length > 0) {
-      dispatch(productsActions.fetchProducts({ products: itemsData }));
+      dispatch(
+        productsActions.fetchProducts({
+          products: itemsData,
+        })
+      );
     }
   }, [itemsData?.length, dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -73,16 +66,13 @@ const AllProducts = () => {
    * these states is updated, otherwise, displayed data will be stale!
    */
   useEffect(() => {
-    dispatch(productsActions.fetchProductsForPage({ pageNumber, itemType }));
-  }, [
-    dispatch,
-    filteredProducts,
-    isBrandFilteringApplied,
-    isTagFilteringApplied,
-    itemType,
-    pageNumber,
-    products,
-  ]);
+    dispatch(
+      productsActions.fetchProductsForPage({
+        pageNumber,
+        itemType,
+      })
+    );
+  }, [dispatch, filteredProducts, isBrandFilteringApplied, isTagFilteringApplied, itemType, pageNumber, products]);
 
   if (isItemsDataLoading) {
     // while data fetching is in progress or "products" state is not updated with "itemsData" yet, display a loading Spinner
@@ -96,11 +86,7 @@ const AllProducts = () => {
         <section>
           <Title title="Products" />
           <div className={classes.ItemTypes}>
-            <ItemType
-              isSelected={itemType === "mug"}
-              itemType="mug"
-              onClicked={setItemTypeHandler.bind(this, "mug")}
-            />
+            <ItemType isSelected={itemType === "mug"} itemType="mug" onClicked={setItemTypeHandler.bind(this, "mug")} />
             <ItemType
               isSelected={itemType === "shirt"}
               itemType="shirt"
@@ -109,27 +95,17 @@ const AllProducts = () => {
           </div>
           <div className={classes.ProductsList}>
             {productsInPage.length === 0 ? (
-              <span>
-                No available product found. Please try to remove some filtering
-                options
-              </span>
+              <span>No available product found. Please try to remove some filtering options</span>
             ) : (
               productsInPage?.map((product) => (
-                <ProductCard
-                  key={product.slug}
-                  id={product.slug}
-                  price={product.price}
-                  productName={product.name}
-                />
+                <ProductCard key={product.slug} id={product.slug} price={product.price} productName={product.name} />
               ))
             )}
           </div>
           <div className={classes.Pagination}>
             <Pagination
               totalNumberOfPages={Math.ceil(
-                isBrandFilteringApplied || isTagFilteringApplied
-                  ? filteredProducts?.length / 32
-                  : products?.length / 32
+                isBrandFilteringApplied || isTagFilteringApplied ? filteredProducts?.length / 32 : products?.length / 32
               )}
             />
           </div>

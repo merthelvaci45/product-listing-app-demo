@@ -14,20 +14,17 @@ const FlatButton = ({
   isBorderedStyle, // bool prop to check whether the component is bordered or not
   isNotPrimaryColor, // bool prop to determine content color. if true, content color will be #697488, otherwise #1ea4ce
   onPressed, // prop to trigger "onClick" method of native <button> component
-}) => {
-  return (
-    <button
-      className={`${classes.FlatButton} ${
-        isNotPrimaryColor ? classes.DarkGray : classes.Primary
-      } ${isBorderedStyle ? classes.Bordered : ""}`}
-      id={id}
-      onClick={onPressed}
-      type="button"
-    >
-      {children}
-    </button>
-  );
-};
+}) => (
+  <button
+    className={`${classes.FlatButton} ${isNotPrimaryColor ? classes.DarkGray : classes.Primary} ${
+      isBorderedStyle ? classes.Bordered : ""
+    }`}
+    id={id}
+    onClick={onPressed}
+    type="button">
+    {children}
+  </button>
+);
 
 FlatButton.propTypes = {
   children: PropTypes.node.isRequired,

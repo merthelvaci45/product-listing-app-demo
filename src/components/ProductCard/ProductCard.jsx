@@ -22,7 +22,13 @@ const ProductCard = ({ id, price, productName }) => {
    * in order to add an item with the specified "id", "name" and "price" properties to the user shopping cart.
    */
   const addProductToCartHandler = () => {
-    dispatch(cartActions.addItemToCart({ id, name: productName, price }));
+    dispatch(
+      cartActions.addItemToCart({
+        id,
+        name: productName,
+        price,
+      })
+    );
   };
 
   return (
@@ -32,18 +38,8 @@ const ProductCard = ({ id, price, productName }) => {
         imgWebpSrc={dummyProductImage.source.webp}
         imgAltText={dummyProductImage.altText}
       />
-      <Text
-        color="Primary"
-        fontWeight="FontWeight700"
-        isBlockDisplay
-        text={`₺ ${price}`}
-      />
-      <Text
-        color="TextPrimary"
-        fontWeight="FontWeight600"
-        isBlockDisplay
-        text={productName}
-      />
+      <Text color="Primary" fontWeight="FontWeight700" isBlockDisplay text={`₺ ${price}`} />
+      <Text color="TextPrimary" fontWeight="FontWeight600" isBlockDisplay text={productName} />
       <Button isBlockButton onClicked={addProductToCartHandler}>
         Add
       </Button>
