@@ -46,7 +46,7 @@ const Header = () => {
             <Text
               color="White"
               fontWeight="FontWeight600"
-              text={`₺ ${totalPrice.toFixed(2)}`}
+              text={`₺ ${totalPrice <= 0.0 ? Math.round(totalPrice).toFixed(2) : totalPrice.toFixed(2)}`}
             />
           </div>
         </div>
