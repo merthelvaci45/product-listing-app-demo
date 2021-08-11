@@ -35,8 +35,8 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
   const { width } = useWindowDimensions();
 
   const dispatch = useDispatch();
-  const sortingOptions = useSelector(
-    (state) => state.productsSlice.sortingOptions
+  const { filteredProducts, sortedBy, sortingOptions } = useSelector(
+    (state) => state.productsSlice
   );
 
   /**
@@ -193,14 +193,19 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
   }, [brandsCheckboxStates, dispatch, tagsCheckboxStates]);
 
   /**
-   * this effect hook is responsible for performing sort operation on
-   * currently available products after each time filtering is applied
+   * this effect hook is responsible for keeping products in sorted order by given sorting option
+   * even when filtering by either Brands and/or Tags is applied. Note that "filteredProducts.length"
+   * is given as a dependency in dependency array. The reason for this is that this effect hook is
+   * desired to be re-run on every change in total length of "filteredPRoducts" state.
    */
-  /* useEffect(() => {
-    dispatch(
-      productsActions.sortProductsBy({ selectedSortingOption: sortedBy })
-    );
-  }, [brandsCheckboxStates, dispatch, tagsCheckboxStates, sortedBy]); */
+  useEffect(() => {
+    // run this hook only if a sorting option is specified by user
+    if (sortedBy) {
+      dispatch(
+        productsActions.sortProductsBy({ selectedSortingOption: sortedBy })
+      );
+    }
+  }, [dispatch, filteredProducts.length, sortedBy]);
 
   const sortingBoxContent = (
     <FeatureCardWithTitle isFixedHeight title="Sorting">
