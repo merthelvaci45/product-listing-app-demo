@@ -11,6 +11,7 @@ const initialState = {
   sortingOptions: initialSortingRadioButtonsState,
   isBrandFilteringApplied: false,
   isTagFilteringApplied: false,
+  sortedBy: null,
 };
 
 const productsSlice = createSlice({
@@ -52,6 +53,7 @@ const productsSlice = createSlice({
     },
     sortProductsBy(state, action) {
       const { selectedSortingOption } = action.payload;
+      state.sortedBy = selectedSortingOption;
 
       // update sortingOptions state with the one currently selected, which is set to true
       state.sortingOptions = {
