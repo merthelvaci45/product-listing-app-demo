@@ -123,9 +123,14 @@ const productsSlice = createSlice({
             state.filteredProducts = [];
           } else {
             // else, apply proper filtering by selected Brand(s)
-            const availableProducts = state.isTagFilteringApplied ? [...state.filteredProducts] : [...state.products];
-
-            const filteredProducts = availableProducts.filter((product) => brandsCheckboxStates[product.manufacturer]);
+            let filteredProducts = [];
+            if (state.isTagFilteringApplied) {
+              filteredProducts = [...state.products]
+                .filter((product) => brandsCheckboxStates[product.manufacturer])
+                .filter((product) => product.tags.some((prodTag) => tagsCheckboxStates[prodTag]));
+            } else {
+              filteredProducts = [...state.products].filter((product) => brandsCheckboxStates[product.manufacturer]);
+            }
             state.filteredProducts = filteredProducts;
           }
         } else {
@@ -143,11 +148,16 @@ const productsSlice = createSlice({
             state.filteredProducts = [];
           } else {
             // else, apply proper filtering by selected Tag(s)
-            const availableProducts = state.isBrandFilteringApplied ? [...state.filteredProducts] : [...state.products];
-
-            const filteredProducts = availableProducts.filter((product) =>
-              product.tags.some((tag) => tagsCheckboxStates[tag])
-            );
+            let filteredProducts = [];
+            if (state.isBrandFilteringApplied) {
+              filteredProducts = [...state.products]
+                .filter((product) => product.tags.some((tag) => tagsCheckboxStates[tag]))
+                .filter((product) => brandsCheckboxStates[product.manufacturer]);
+            } else {
+              filteredProducts = [...state.products].filter((product) =>
+                product.tags.some((tag) => tagsCheckboxStates[tag])
+              );
+            }
             state.filteredProducts = filteredProducts;
           }
         } else {
