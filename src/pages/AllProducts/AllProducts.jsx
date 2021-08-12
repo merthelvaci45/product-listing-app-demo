@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./AllProducts.module.scss";
@@ -21,9 +21,15 @@ import { ITEMS_API_BASE_URL } from "../../utils";
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug"); // state to keep track of products beloging to which itemType is listed
   const dispatch = useDispatch();
-  const { filteredProducts, isBrandFilteringApplied, isTagFilteringApplied, products, productsInPage } = useSelector(
-    (state) => state.productsSlice
-  );
+  const {
+    filteredProducts,
+    isBrandFilteringApplied,
+    isTagFilteringApplied,
+    mugTypeProducts,
+    products,
+    productsInPage,
+    shirtTypeProducts,
+  } = useSelector((state) => state.productsSlice);
   const pageNumber = useSelector((state) => state.paginationSlice.pageNumber);
 
   const { width } = useWindowDimensions();
@@ -35,6 +41,34 @@ const AllProducts = () => {
   const [manufacturersForMugType, manufacturersForShirtType] = useManufacturerCountForItemType(itemsData);
 
   const [tagsForMugType, tagsForShirtType] = useTagCountForItemType(itemsData);
+
+  /**
+   * "totalNumberOfPages" to be displayed in Pagination section at the bottom is calculated conditionally.
+   * The first case is that, there is no applied filtering neither for brands nor for tags. In this case,
+   * the calculation will be perfomed as in the first "if" statement.
+   * ----------------------------------------------------------------------------------------------------
+   * The second case is that if any filtering is applied and currently selected itemType is "mug", then the
+   * calculation will be perfomed as in the second "if" statement. The reason why it is divided by 16 and not
+   * by e.g., 32 is that for each item type, at most 16 products will be displayed in each page.
+   * ----------------------------------------------------------------------------------------------------
+   * The third case is that if any filtering is applied and currently selected itemType is "shirt", then the
+   * calculation will be perfomed as in the third "if" statement. The reason why it is divided by 16 and not
+   * by e.g., 32 is that for each item type, at most 16 products will be displayed in each page.
+   * If none of the 3 conditions is satisfied, return 0.
+   */
+  const totalNumberOfPages = useMemo(() => {
+    if (!isBrandFilteringApplied && !isTagFilteringApplied) return Math.ceil(products.length / 32);
+    if (itemType === "mug") return Math.ceil(mugTypeProducts.length / 16);
+    if (itemType === "shirt") return Math.ceil(shirtTypeProducts.length / 16);
+    return 0;
+  }, [
+    isBrandFilteringApplied,
+    isTagFilteringApplied,
+    itemType,
+    mugTypeProducts.length,
+    products.length,
+    shirtTypeProducts.length,
+  ]);
 
   // the following 2 variables are passed to "SearchingAndFilteringSection" component as props
   // and they are responsible for populating "Brands" and "Tags" filtering box contents, respectively.
@@ -103,11 +137,7 @@ const AllProducts = () => {
             )}
           </div>
           <div className={classes.Pagination}>
-            <Pagination
-              totalNumberOfPages={Math.ceil(
-                isBrandFilteringApplied || isTagFilteringApplied ? filteredProducts?.length / 32 : products?.length / 32
-              )}
-            />
+            <Pagination totalNumberOfPages={totalNumberOfPages} />
           </div>
         </section>
         {width >= 1200 && <ShoppingCart />}
