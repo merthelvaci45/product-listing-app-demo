@@ -25,11 +25,6 @@ const useTagCountForItemType = (items = []) => {
       const availableTagsForMugType = itemsOfMugType.reduce((acc, cur) => [...acc, ...cur.tags], []);
       const availableTagsForShirtType = itemsOfShirtType.reduce((acc, cur) => [...acc, ...cur.tags], []);
 
-      // third, find out how many items with "mug" type, a tag has
-      // and update "tagCountForItemType" state accordingly.
-      // for this purpose, use "findNumberOfOccurencesOfItemsInArray" utility function
-      // defined in "../utils/findNumberOfOccurencesOfItemsInArray.js" file
-
       /* third, find out how many items with specific "itemType", i.e, "mug" or "shirt", a tag has.
        * For this case, there will be 2 distinct main cases to be worked on. The first case is that "Brands - All"
        * option is NOT selected. In this case, there will be yet 2 distinct sub cases to be evaluated. The first
