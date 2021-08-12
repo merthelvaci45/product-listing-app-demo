@@ -29,6 +29,21 @@ const useTagCountForItemType = (items = []) => {
       // and update "tagCountForItemType" state accordingly.
       // for this purpose, use "findNumberOfOccurencesOfItemsInArray" utility function
       // defined in "../utils/findNumberOfOccurencesOfItemsInArray.js" file
+
+      /* third, find out how many items with specific "itemType", i.e, "mug" or "shirt", a tag has.
+       * For this case, there will be 2 distinct main cases to be worked on. The first case is that "Brands - All"
+       * option is NOT selected. In this case, there will be yet 2 distinct sub cases to be evaluated. The first
+       * sub case is that none of the Brands filtering checkboxes is selected. In this case, all counts for "Tags"
+       * checkboxes should be returned as being 0. The second sub case is that one or more Brands filtering checkboxes
+       * is/are selected. In this case, "Tags - All" count and the count for each respective tag in
+       * "availableTagsForMugType (|| availableTagsForShirtType)" array should be done by filtering "items" array
+       * step by step.
+       * -----------------------------------------------------------------------------------------------------
+       * The second case is that "Brands - All" checkbox is selected. In this case, "Tags - All" count will be equal
+       * to the total number of "mug (|| shirt)" type products in "items" array. Each respective count for each tag
+       * is calculated via using "findNumberOfOccurencesOfItemsInArray" utility function, which is defined in
+       * "../utils/findNumberOfOccurencesOfItemsInArray.js" file
+       */
       setTagCountForMug(() => {
         // if 'Brands - All' checkbox is NOT selected,
         if (!appliedBrandFilters[0]?.includes("All")) {
@@ -59,7 +74,7 @@ const useTagCountForItemType = (items = []) => {
 
         // if 'Brands - All' checkbox is selected,
         return {
-          "Tags - All": items.length,
+          "Tags - All": items.filter((prod) => prod.itemType === "mug").length,
           ...findNumberOfOccurencesOfItemsInArray(availableTagsForMugType),
         };
       });
@@ -94,7 +109,7 @@ const useTagCountForItemType = (items = []) => {
 
         // if 'Brands - All' checkbox is selected,
         return {
-          "Tags - All": items.length,
+          "Tags - All": items.filter((prod) => prod.itemType === "shirt").length,
           ...findNumberOfOccurencesOfItemsInArray(availableTagsForShirtType),
         };
       });

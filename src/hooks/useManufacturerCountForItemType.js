@@ -25,10 +25,20 @@ const useManufacturerCountForItemType = (items = []) => {
       const availableBrandsForMugType = itemsOfMugType.map((itemType) => itemType.manufacturer);
       const availableBrandsForShirtType = itemsOfShirtType.map((itemType) => itemType.manufacturer);
 
-      // third, find out how many items with specific "itemType", i.e, "mug" or "shirt", a manufacturer has
-      // and update "manufacturerCountForMugType" and "manufacturerCountForShirtType" states accordingly.
-      // for this purpose, use "findNumberOfOccurencesOfItemsInArray" utility function
-      // defined in "../utils/findNumberOfOccurencesOfItemsInArray.js" file
+      /* third, find out how many items with specific "itemType", i.e, "mug" or "shirt", a manufacturer has.
+       * For this case, there will be 2 distinct main cases to be worked on. The first case is that "Tags - All"
+       * option is NOT selected. In this case, there will be yet 2 distinct sub cases to be evaluated. The first
+       * sub case is that none of the Tags filtering checkboxes is selected. In this case, all counts for "Brands"
+       * checkboxes should be returned as being 0. The second sub case is that one or more Tags filtering checkboxes
+       * is/are selected. In this case, "Brands - All" count and the count for each respective brand in
+       * "availableBrandsForMugType (|| availableBrandsForShirtType)" array should be done by filtering "items" array
+       * step by step.
+       * -----------------------------------------------------------------------------------------------------
+       * The second case is that "Tags - All" checkbox is selected. In this case, "Brands - All" count will be equal
+       * to the total number of "mug (|| shirt)" type products in "items" array. Each respective count for each brand
+       * is calculated via using "findNumberOfOccurencesOfItemsInArray" utility function, which is defined in
+       * "../utils/findNumberOfOccurencesOfItemsInArray.js" file
+       */
       setManufacturerCountForMug(() => {
         // if 'Tags - All' checkbox is NOT selected,
         if (!appliedTagFilters[0]?.includes("All")) {
@@ -59,7 +69,7 @@ const useManufacturerCountForItemType = (items = []) => {
 
         // if 'Tags - All' checkbox is selected,
         return {
-          "Brands - All": items.length,
+          "Brands - All": items.filter((prod) => prod.itemType === "mug").length,
           ...findNumberOfOccurencesOfItemsInArray(availableBrandsForMugType),
         };
       });
@@ -94,7 +104,7 @@ const useManufacturerCountForItemType = (items = []) => {
 
         // if 'Tags - All' checkbox is selected,
         return {
-          "Brands - All": items.length,
+          "Brands - All": items.filter((prod) => prod.itemType === "shirt").length,
           ...findNumberOfOccurencesOfItemsInArray(availableBrandsForShirtType),
         };
       });
