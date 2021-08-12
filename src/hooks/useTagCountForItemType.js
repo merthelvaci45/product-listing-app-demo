@@ -46,7 +46,9 @@ const useTagCountForItemType = (items = []) => {
           return availableTagsForMugType.reduce((tagCounts, tag) => {
             return {
               ...tagCounts,
-              "Tags - All": items.filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
+              "Tags - All": items
+                .filter((prod) => prod.itemType === "mug")
+                .filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
               [tag]: items
                 .filter((prod) => prod.itemType === "mug")
                 .filter((prod) => appliedBrandFilters.includes(prod.manufacturer))
@@ -79,7 +81,9 @@ const useTagCountForItemType = (items = []) => {
           return availableTagsForShirtType.reduce((tagCounts, tag) => {
             return {
               ...tagCounts,
-              "Tags - All": items.filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
+              "Tags - All": items
+                .filter((prod) => prod.itemType === "shirt")
+                .filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
               [tag]: items
                 .filter((prod) => prod.itemType === "shirt")
                 .filter((prod) => appliedBrandFilters.includes(prod.manufacturer))
