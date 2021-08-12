@@ -81,7 +81,7 @@ const useTagCountForItemType = (items = []) => {
               ...tagCounts,
               "Tags - All": items.filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
               [tag]: items
-                .filter((prod) => prod.itemType === "mug")
+                .filter((prod) => prod.itemType === "shirt")
                 .filter((prod) => appliedBrandFilters.includes(prod.manufacturer))
                 .filter((prod) => prod.tags.includes(tag)).length,
             };
