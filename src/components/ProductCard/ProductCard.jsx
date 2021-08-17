@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -15,6 +16,10 @@ import { cartActions } from "../../store/slices";
  * @param {String} productName: prop to hold name of each product
  */
 const ProductCard = ({ id, price, productName }) => {
+  // this state is used to simulate a waiting process when user adds a product to cart.
+  // whenever "Add" button is pressed, "Processing..." text is displayed to user to
+  // inform him/her about current situation of the action. this is needed for better UX.
+  const [isFakeAddingActionInProgress, setIsFakeAddingActionInProgress] = useState(false);
   const dispatch = useDispatch();
 
   /**
@@ -22,6 +27,7 @@ const ProductCard = ({ id, price, productName }) => {
    * in order to add an item with the specified "id", "name" and "price" properties to the user shopping cart.
    */
   const addProductToCartHandler = () => {
+    setIsFakeAddingActionInProgress(true);
     dispatch(
       cartActions.addItemToCart({
         id,
@@ -30,6 +36,22 @@ const ProductCard = ({ id, price, productName }) => {
       })
     );
   };
+
+  /**
+   * this effect hook is responsible for simulating a waiting process for a time period of 500ms
+   * while a product is being added to cart by user. note that after each render, "timer" object
+   * is cleared so that any possible memory leak can be prevented in advance.
+   */
+  useEffect(() => {
+    let timer;
+    if (isFakeAddingActionInProgress) {
+      timer = setTimeout(() => {
+        setIsFakeAddingActionInProgress(false);
+      }, 500);
+    }
+
+    return () => clearTimeout(timer);
+  }, [isFakeAddingActionInProgress]);
 
   return (
     <div className={classes.ProductCard}>
@@ -41,7 +63,7 @@ const ProductCard = ({ id, price, productName }) => {
       <Text color="Primary" fontWeight="FontWeight700" isBlockDisplay text={`₺ ${price}`} />
       <Text color="TextPrimary" fontWeight="FontWeight600" isBlockDisplay text={productName} />
       <Button isBlockButton onClicked={addProductToCartHandler}>
-        Add
+        {isFakeAddingActionInProgress ? "Processing..." : "Add"}
       </Button>
     </div>
   );
