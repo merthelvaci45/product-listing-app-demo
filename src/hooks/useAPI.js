@@ -29,9 +29,9 @@ const useAPI = ({
         // at the start of a request, reset "isError" state to initial value
         setIsError(false);
 
-        const { data } = await axiosInstance({
-          method,
-          url: queryPath,
+        const axios = await import("axios");
+
+        const { data } = await axios[method](queryPath, {
           headers,
           data: method !== API_METHODS.GET ? body : null,
         }); // make API request
