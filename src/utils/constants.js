@@ -1,5 +1,4 @@
-export const COMPANIES_API_BASE_URL = "http://localhost:4000/companies";
-export const ITEMS_API_BASE_URL = "http://localhost:5000/items";
+export const ITEMS_API_BASE_URL = "https://products-listing-app-demo-default-rtdb.firebaseio.com/items.json";
 
 export const API_METHODS = {
   GET: "get",
