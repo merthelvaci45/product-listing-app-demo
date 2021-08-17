@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 import { findNumberOfOccurencesOfItemsInArray } from "../utils";
+import { useStore } from ".";
 
 /**
  * this hook is responsible for extracting an object, whose keys are made out of each manufacturer name
@@ -12,7 +12,7 @@ const useManufacturerCountForItemType = (items = []) => {
   const [manufacturerCountForMug, setManufacturerCountForMug] = useState();
   const [manufacturerCountForShirt, setManufacturerCountForShirt] = useState();
 
-  const { appliedTagFilters } = useSelector((state) => state.productsSlice);
+  const { appliedTagFilters } = useStore();
 
   useEffect(() => {
     // run this hook only if "items" has the populated data

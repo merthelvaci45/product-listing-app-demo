@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import classes from "./ProductInShoppingCart.module.scss";
@@ -6,6 +5,7 @@ import classes from "./ProductInShoppingCart.module.scss";
 import { cartActions } from "../../store/slices";
 
 import { FlatButton, Text } from "..";
+import { useStore } from "../../hooks";
 
 /**
  * this component constitutes a product name and price with its quantity
@@ -18,7 +18,7 @@ import { FlatButton, Text } from "..";
  * @param {Number} quantity: quantity of product in the cart
  */
 const ProductInShoppingCart = ({ id, name, price, quantity }) => {
-  const dispatch = useDispatch();
+  const { dispatch } = useStore();
 
   const removeProductFromCartHandler = () => {
     dispatch(cartActions.removeItemFromCart({ id }));

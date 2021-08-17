@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import classes from "./Pagination.module.scss";
@@ -7,14 +6,14 @@ import classes from "./Pagination.module.scss";
 import { paginationActions } from "../../store/slices";
 
 import { FlatButton, Text } from "..";
+import { useStore } from "../../hooks";
 
 /**
  * this component constitutes the pagination section at the bottom of the page.
  * @param {Number} totalNumberOfPages: prop to check how many pages will be displayed
  */
 const Pagination = ({ totalNumberOfPages }) => {
-  const dispatch = useDispatch();
-  const { pageNumber, pageNumbers } = useSelector((state) => state.paginationSlice); // extract "pageNumber" and "pageNumbers" states of "paginationSlice"
+  const { dispatch, pageNumber, pageNumbers } = useStore();
 
   /**
    * this handler function is responsible for dispatching the action of "paginationSlice"

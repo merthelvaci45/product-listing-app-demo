@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import classes from "./ProductCard.module.scss";
@@ -8,6 +7,7 @@ import { Button, Image, Text } from "..";
 
 import { dummyProductImage } from "./util";
 import { cartActions } from "../../store/slices";
+import { useStore } from "../../hooks";
 
 /**
  * this component constitutes a product card which looks exactly the same with the one specified in Figma design.
@@ -20,7 +20,7 @@ const ProductCard = ({ id, price, productName }) => {
   // whenever "Add" button is pressed, "Processing..." text is displayed to user to
   // inform him/her about current situation of the action. this is needed for better UX.
   const [isFakeAddingActionInProgress, setIsFakeAddingActionInProgress] = useState(false);
-  const dispatch = useDispatch();
+  const { dispatch } = useStore();
 
   /**
    * this handler function is responsible for dispatching the required action of "cartSlice" slice of redux store

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import classes from "./SortingAndFilteringSection.module.scss";
 
 import { Checkbox, FeatureCardWithTitle, FlatButton, Input, Modal, RadioButton } from "..";
 
-import { useWindowDimensions } from "../../hooks";
+import { useStore, useWindowDimensions } from "../../hooks";
 import { productsActions } from "../../store/slices";
 import { SORT_OPTIONS } from "../../utils";
 
@@ -25,8 +24,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
   const { width } = useWindowDimensions();
 
-  const dispatch = useDispatch();
-  const { filteredProducts, sortedBy, sortingOptions } = useSelector((state) => state.productsSlice);
+  const { dispatch, filteredProducts, sortedBy, sortingOptions } = useStore();
 
   /**
    * this handler function is responsible for updating filtering text field

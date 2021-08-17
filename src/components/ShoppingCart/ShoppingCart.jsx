@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
 import classes from "./ShoppingCart.module.scss";
 
 import { ProductInShoppingCart, Text } from "..";
+import { useStore } from "../../hooks";
 
 const ShoppingCart = () => {
-  const { cart, totalPrice } = useSelector((state) => state.cartSlice); // extract "cart" and "totalPrice" states from "cartSlice" slice of redux store
+  const { cart, totalPrice } = useStore();
 
   return (
     <section className={classes.RightSection}>

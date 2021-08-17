@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 
 import classes from "./Header.module.scss";
 
 import { FlatButton, Logo, Modal, ShoppingCart, Text } from "..";
+import { useStore } from "../../hooks";
 
 const Header = () => {
   const [isShoppingCartDisplayedForMobile, setIsShoppingCartDisplayedForMobile] = useState(false);
-  const totalPrice = useSelector((state) => state.cartSlice.totalPrice); // extract "totalPrice" state of "cartSlice"
+  const { totalPrice } = useStore();
 
   /**
    * this handler function is responsible for displaying current shopping cart to user

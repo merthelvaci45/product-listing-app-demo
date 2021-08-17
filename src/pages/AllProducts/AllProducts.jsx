@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./AllProducts.module.scss";
 
@@ -14,14 +13,20 @@ import {
   Title,
 } from "../../components";
 
-import { useAPI, useManufacturerCountForItemType, useTagCountForItemType, useWindowDimensions } from "../../hooks";
+import {
+  useAPI,
+  useManufacturerCountForItemType,
+  useStore,
+  useTagCountForItemType,
+  useWindowDimensions,
+} from "../../hooks";
 import { productsActions } from "../../store/slices";
 import { ITEMS_API_BASE_URL } from "../../utils";
 
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug"); // state to keep track of products beloging to which itemType is listed
-  const dispatch = useDispatch();
   const {
+    dispatch,
     filteredProducts,
     isBrandFilteringApplied,
     isTagFilteringApplied,
@@ -29,8 +34,8 @@ const AllProducts = () => {
     products,
     productsInPage,
     shirtTypeProducts,
-  } = useSelector((state) => state.productsSlice);
-  const pageNumber = useSelector((state) => state.paginationSlice.pageNumber);
+    pageNumber,
+  } = useStore();
 
   const { width } = useWindowDimensions();
 
