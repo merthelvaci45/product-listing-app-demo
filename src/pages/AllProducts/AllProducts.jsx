@@ -121,7 +121,7 @@ const AllProducts = () => {
   return (
     <Layout>
       <div className={classes.AllProducts}>
-        <SortingAndFilteringSection manufacturers={manufacturers} tags={tags} />
+        <SortingAndFilteringSection itemType={itemType} manufacturers={manufacturers} tags={tags} />
         <section>
           <Title title="Products" />
           <div className={classes.ItemTypes}>
