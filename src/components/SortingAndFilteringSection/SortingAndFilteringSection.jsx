@@ -17,9 +17,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
   // the following 3 states will be in action only for screen sizes < 1200px
   const [isSortingBoxDisplayed, setIsSortingBoxDisplayed] = useState(false);
-
   const [isBrandsFilteringBoxDisplayed, setIsBrandsFilteringBoxDisplayed] = useState(false);
-
   const [isTagsFilteringBoxDisplayed, setIsTagsFilteringBoxDisplayed] = useState(false);
 
   const { width } = useWindowDimensions();
@@ -130,7 +128,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
    * to false except for "Brands - All" checkbox state for the 1st render. Checking
    * "Brands - All" checkbox state to true is required so that at the initial display
    * of the screen, the user should know that there is no filtering applied based on
-   * Brands all available products are displayed.
+   * Brands and all available products are displayed.
    */
   useEffect(() => {
     setBrandsCheckboxStates(() =>
@@ -149,7 +147,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
    * to false except for "Tags - All" checkbox state for the 1st render. Checking
    * "Tags - All" checkbox state to true is required so that at the initial display
    * of the screen, the user should know that there is no filtering applied based on
-   * Tags all available products are displayed.
+   * Tags and all available products are displayed.
    */
   useEffect(() => {
     setTagsCheckboxStates(() =>
