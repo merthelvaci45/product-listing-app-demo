@@ -124,11 +124,15 @@ const productsSlice = createSlice({
           } else {
             // else, apply proper filtering by selected Brand(s)
             let filteredProducts = [];
-            if (state.isTagFilteringApplied) {
+            // if "Tags - All" option is NOT selected, there will be 2 distinct cases. The first one is that
+            // all Tags filtering checkboxes are left unselected. the second one is that one or more Tags
+            // filtering option(s) is/are selected. Then, apply filtering of products logic as follows.
+            if (!tagsCheckboxStates["Tags - All"]) {
               filteredProducts = [...state.products]
                 .filter((product) => brandsCheckboxStates[product.manufacturer])
                 .filter((product) => product.tags.some((prodTag) => tagsCheckboxStates[prodTag]));
             } else {
+              // if "Tags - All" option is selected, it means no specific Tags filtering is applied.
               filteredProducts = [...state.products].filter((product) => brandsCheckboxStates[product.manufacturer]);
             }
             state.filteredProducts = filteredProducts;
@@ -149,11 +153,15 @@ const productsSlice = createSlice({
           } else {
             // else, apply proper filtering by selected Tag(s)
             let filteredProducts = [];
-            if (state.isBrandFilteringApplied) {
+            // if "Brands - All" option is NOT selected, there will be 2 distinct cases. The first one is that
+            // all Brands filtering checkboxes are left unselected. the second one is that one or more Brands
+            // filtering option(s) is/are selected. Then, apply filtering of products logic as follows.
+            if (!brandsCheckboxStates["Brands - All"]) {
               filteredProducts = [...state.products]
                 .filter((product) => product.tags.some((tag) => tagsCheckboxStates[tag]))
                 .filter((product) => brandsCheckboxStates[product.manufacturer]);
             } else {
+              // if "Brands - All" option is selected, it means no specific Brands filtering is applied.
               filteredProducts = [...state.products].filter((product) =>
                 product.tags.some((tag) => tagsCheckboxStates[tag])
               );
