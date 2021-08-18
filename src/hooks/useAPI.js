@@ -29,7 +29,7 @@ const useAPI = ({
         // at the start of a request, reset "isError" state to initial value
         setIsError(false);
 
-        const axios = await import("axios");
+        const axios = await import("axios"); // lazily import "axios" package only in case it will be used. (good practice for reducing bundle size for the initial download of required chunk files)
 
         const { data } = await axios[method](queryPath, {
           headers,
