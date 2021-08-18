@@ -1,5 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 
+/**
+ * this hook is responsible for serving all redux states belonging to all redux slices along
+ * with "dispatch" function from one central place. by the help of this hook, there will be
+ * no need to import "useSelector" and/or "useDispatch" from "react-redux" package repeatedly
+ * in any component. just invoking this hook and pulling out the required states will work smoothly.
+ */
 const useStore = () => {
   const dispatch = useDispatch();
   const {
