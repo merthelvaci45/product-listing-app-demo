@@ -6,10 +6,10 @@ import classes from "./SortingAndFilteringSection.module.scss";
 import { Checkbox, FeatureCardWithTitle, FlatButton, Input, Modal, RadioButton } from "..";
 
 import { useStore, useWindowDimensions } from "../../hooks";
-import { productsActions } from "../../store/slices";
+import { paginationActions, productsActions } from "../../store/slices";
 import { SORT_OPTIONS } from "../../utils";
 
-const SortingAndFilteringSection = ({ manufacturers, tags }) => {
+const SortingAndFilteringSection = ({ itemType, manufacturers, tags }) => {
   const [brandFilteringText, setBrandFilteringText] = useState("");
   const [tagFilteringText, setTagFilteringText] = useState("");
   const [brandsCheckboxStates, setBrandsCheckboxStates] = useState({});
@@ -22,7 +22,15 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 
   const { width } = useWindowDimensions();
 
-  const { dispatch, filteredProducts, sortedBy, sortingOptions } = useStore();
+  const {
+    dispatch,
+    filteredProducts,
+    isBrandFilteringApplied,
+    isTagFilteringApplied,
+    pageNumber,
+    sortedBy,
+    sortingOptions,
+  } = useStore();
 
   /**
    * this handler function is responsible for updating filtering text field
@@ -193,6 +201,24 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
     }
   }, [dispatch, filteredProducts.length, sortedBy]);
 
+  /**
+   * this effect hook is responsible for setting pageNumber to 1, if any kind of (or both) filtering is(are) applied
+   * and the page number just before filtering the products is greater than total number of pages just after filtering
+   * the products. For example, before no filtering is applied, user is viewing page number 45. After filtering is in
+   * action, let's assume that total number of pages drops to 3. Since there is no chance to display page number 45 in
+   * this case, the page number will be set to 1.
+   */
+  useEffect(() => {
+    const amountOfFilteredItemTypeProducts = filteredProducts.filter((product) => product.itemType === itemType).length;
+
+    if (
+      (isBrandFilteringApplied || isTagFilteringApplied) &&
+      pageNumber > Math.ceil(amountOfFilteredItemTypeProducts / 16)
+    ) {
+      dispatch(paginationActions.setPageNumberTo(1));
+    }
+  }, [dispatch, filteredProducts, isBrandFilteringApplied, isTagFilteringApplied, itemType, pageNumber]);
+
   const sortingBoxContent = (
     <FeatureCardWithTitle isFixedHeight title="Sorting">
       {SORT_OPTIONS.map((option) => (
@@ -303,11 +329,13 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
 };
 
 SortingAndFilteringSection.propTypes = {
+  itemType: PropTypes.string,
   manufacturers: PropTypes.object,
   tags: PropTypes.object,
 };
 
 SortingAndFilteringSection.defaultProps = {
+  itemType: "mug",
   manufacturers: null,
   tags: null,
 };
