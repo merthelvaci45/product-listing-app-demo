@@ -142,7 +142,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
         {}
       )
     );
-  }, [manufacturers.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * this effect hook is responsible for setting all tags filtering checkbox states
@@ -161,7 +161,7 @@ const SortingAndFilteringSection = ({ manufacturers, tags }) => {
         {}
       )
     );
-  }, [tags.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * this hook is responsible for triggering product filtering action
