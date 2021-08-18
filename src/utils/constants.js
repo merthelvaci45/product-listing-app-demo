@@ -1,4 +1,4 @@
-export const ITEMS_API_BASE_URL = "https://products-listing-app-demo-default-rtdb.firebaseio.com/items.json";
+export const ITEMS_DATA_FETCH_URL = "https://products-listing-app-demo-default-rtdb.firebaseio.com/items.json";
 
 export const API_METHODS = {
   GET: "get",

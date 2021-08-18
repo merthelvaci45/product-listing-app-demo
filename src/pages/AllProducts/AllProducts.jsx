@@ -21,7 +21,7 @@ import {
   useWindowDimensions,
 } from "../../hooks";
 import { productsActions } from "../../store/slices";
-import { ITEMS_API_BASE_URL } from "../../utils";
+import { ITEMS_DATA_FETCH_URL } from "../../utils";
 
 const AllProducts = () => {
   const [itemType, setItemType] = useState("mug"); // state to keep track of products beloging to which itemType is listed
@@ -40,7 +40,7 @@ const AllProducts = () => {
   const { width } = useWindowDimensions();
 
   const [itemsData, isItemsDataLoading] = useAPI({
-    queryPath: ITEMS_API_BASE_URL,
+    queryPath: ITEMS_DATA_FETCH_URL,
   }); // invoke hook to fetch "items" data from dummy backend API
 
   const [manufacturersForMugType, manufacturersForShirtType] = useManufacturerCountForItemType(itemsData);
