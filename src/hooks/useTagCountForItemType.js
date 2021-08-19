@@ -69,7 +69,7 @@ const useTagCountForItemType = (items = []) => {
 
         // if 'Brands - All' checkbox is selected,
         return {
-          "Tags - All": items.filter((prod) => prod.itemType === "mug").length,
+          "Tags - All": availableTagsForMugType.length,
           ...findNumberOfOccurencesOfItemsInArray(availableTagsForMugType),
         };
       });
@@ -104,7 +104,7 @@ const useTagCountForItemType = (items = []) => {
 
         // if 'Brands - All' checkbox is selected,
         return {
-          "Tags - All": items.filter((prod) => prod.itemType === "shirt").length,
+          "Tags - All": availableTagsForShirtType.length,
           ...findNumberOfOccurencesOfItemsInArray(availableTagsForShirtType),
         };
       });
