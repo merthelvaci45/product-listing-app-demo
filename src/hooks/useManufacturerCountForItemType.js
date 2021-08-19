@@ -56,11 +56,9 @@ const useManufacturerCountForItemType = (items = []) => {
           return availableBrandsForMugType.reduce((brandCounts, brand) => {
             return {
               ...brandCounts,
-              "Brands - All": items
-                .filter((prod) => prod.itemType === "mug")
-                .filter((prod) => prod.tags.some((tag) => appliedTagFilters?.includes(tag))).length,
-              [brand]: items
-                .filter((prod) => prod.itemType === "mug")
+              "Brands - All": itemsOfMugType.filter((prod) => prod.tags.some((tag) => appliedTagFilters?.includes(tag)))
+                .length,
+              [brand]: itemsOfMugType
                 .filter((prod) => prod.tags.some((tag) => appliedTagFilters?.includes(tag)))
                 .filter((prod) => prod.manufacturer === brand).length,
             };
@@ -91,11 +89,10 @@ const useManufacturerCountForItemType = (items = []) => {
           return availableBrandsForShirtType.reduce((brandCounts, brand) => {
             return {
               ...brandCounts,
-              "Brands - All": items
-                .filter((prod) => prod.itemType === "shirt")
-                .filter((prod) => prod.tags.some((tag) => appliedTagFilters?.includes(tag))).length,
-              [brand]: items
-                .filter((prod) => prod.itemType === "shirt")
+              "Brands - All": itemsOfShirtType.filter((prod) =>
+                prod.tags.some((tag) => appliedTagFilters?.includes(tag))
+              ).length,
+              [brand]: itemsOfShirtType
                 .filter((prod) => prod.tags.some((tag) => appliedTagFilters?.includes(tag)))
                 .filter((prod) => prod.manufacturer === brand).length,
             };
@@ -109,7 +106,7 @@ const useManufacturerCountForItemType = (items = []) => {
         };
       });
     }
-  }, [items, appliedTagFilters]);
+  }, [items.length, appliedTagFilters]);
 
   return [manufacturerCountForMug, manufacturerCountForShirt];
 };
