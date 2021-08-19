@@ -42,7 +42,7 @@ const useTagCountForItemType = (items = []) => {
       setTagCountForMug(() => {
         // if 'Brands - All' checkbox is NOT selected,
         if (!appliedBrandFilters[0]?.includes("All")) {
-          // and if no specific tag checkbox is selected,
+          // and if no specific brand checkbox is selected,
           if (appliedBrandFilters?.length === 0) {
             return availableTagsForMugType.reduce((tagCounts, tag) => {
               return {
@@ -77,7 +77,7 @@ const useTagCountForItemType = (items = []) => {
       setTagCountForShirt(() => {
         // if 'Brands - All' checkbox is NOT selected,
         if (!appliedBrandFilters[0]?.includes("All")) {
-          // and if no specific tag checkbox is selected,
+          // and if no specific brand checkbox is selected,
           if (appliedBrandFilters?.length === 0) {
             return availableTagsForShirtType.reduce((tagCounts, tag) => {
               return {
