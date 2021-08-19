@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { findNumberOfOccurencesOfItemsInArray } from "../utils";
 import { useStore } from ".";
 
 /**
@@ -56,11 +55,8 @@ const useTagCountForItemType = (items = []) => {
           return availableTagsForMugType.reduce((tagCounts, tag) => {
             return {
               ...tagCounts,
-              "Tags - All": items
-                .filter((prod) => prod.itemType === "mug")
-                .filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
-              [tag]: items
-                .filter((prod) => prod.itemType === "mug")
+              "Tags - All": itemsOfMugType.filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
+              [tag]: itemsOfMugType
                 .filter((prod) => appliedBrandFilters.includes(prod.manufacturer))
                 .filter((prod) => prod.tags.includes(tag)).length,
             };
@@ -68,10 +64,13 @@ const useTagCountForItemType = (items = []) => {
         }
 
         // if 'Brands - All' checkbox is selected,
-        return {
-          "Tags - All": availableTagsForMugType.length,
-          ...findNumberOfOccurencesOfItemsInArray(availableTagsForMugType),
-        };
+        return availableTagsForMugType.reduce((tagCounts, tag) => {
+          return {
+            ...tagCounts,
+            "Tags - All": availableTagsForMugType.length,
+            [tag]: itemsOfMugType.filter((prod) => prod.tags.includes(tag)).length,
+          };
+        }, {});
       });
 
       setTagCountForShirt(() => {
@@ -91,11 +90,8 @@ const useTagCountForItemType = (items = []) => {
           return availableTagsForShirtType.reduce((tagCounts, tag) => {
             return {
               ...tagCounts,
-              "Tags - All": items
-                .filter((prod) => prod.itemType === "shirt")
-                .filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
-              [tag]: items
-                .filter((prod) => prod.itemType === "shirt")
+              "Tags - All": itemsOfShirtType.filter((prod) => appliedBrandFilters.includes(prod.manufacturer)).length,
+              [tag]: itemsOfShirtType
                 .filter((prod) => appliedBrandFilters.includes(prod.manufacturer))
                 .filter((prod) => prod.tags.includes(tag)).length,
             };
@@ -103,13 +99,16 @@ const useTagCountForItemType = (items = []) => {
         }
 
         // if 'Brands - All' checkbox is selected,
-        return {
-          "Tags - All": availableTagsForShirtType.length,
-          ...findNumberOfOccurencesOfItemsInArray(availableTagsForShirtType),
-        };
+        return availableTagsForShirtType.reduce((tagCounts, tag) => {
+          return {
+            ...tagCounts,
+            "Tags - All": availableTagsForShirtType.length,
+            [tag]: itemsOfShirtType.filter((prod) => prod.tags.includes(tag)).length,
+          };
+        }, {});
       });
     }
-  }, [items, appliedBrandFilters]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [items.length, appliedBrandFilters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return [tagCountForMug, tagCountForShirt];
 };
